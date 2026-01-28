@@ -18,9 +18,8 @@ public class TouristRepository {
 
     private void theAttractions() {
         attractions.add(new TouristAttraction(attractionName, "Tivoli: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
-        attractions.add(new TouristAttraction(attractionName, "Museum: " + attractionName + "Her kan du se malerier, og drikke te "));
-        attractions.add(new TouristAttraction(attractionName, "Tivoli: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
-        attractions.remove(0);
+        attractions.add(new TouristAttraction(attractionName, "Legoland: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
+        attractions.add(new TouristAttraction(attractionName, "Bakken: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
 
 
         for (TouristAttraction a : attractions) {
@@ -30,17 +29,33 @@ public class TouristRepository {
 
     public List<TouristAttraction> getAllAttractions() {
         return attractions;
-
-
     }
 
     public TouristAttraction findAttractionsByName(String name) {
         for (TouristAttraction attraction : attractions) {
-            if (attraction.getName().equals(name)){
+            if (attraction.getName().equals(name)) {
                 return attraction;
             }
         }
 
         return null;
+    }
+
+    public void createNewAttraction(String name, String description) {
+        TouristAttraction attraction = new TouristAttraction(name, description);
+        attractions.add(attraction);
+    }
+
+    public void deleteAttraction(String name) {
+        TouristAttraction attraction = findAttractionsByName(name);
+        attractions.remove(attraction);
+    }
+
+    public void updateAttraction(String name, String description) {
+        TouristAttraction attraction = findAttractionsByName(name);
+        if (!description.equals(attraction.getDescription())) {
+            attraction.setDescription(description);
+        }
+        //TODO kast en error kode tilbage hvis noget går galt
     }
 }
