@@ -1,6 +1,8 @@
 package com.hectorpetersen.touristguideapi.repository;
+
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import org.springframework.stereotype.Repository;
+
 import java.util.*;
 
 @Repository
@@ -34,7 +36,7 @@ public class TouristRepository {
 
     public TouristAttraction findAttractionsByName(String name) {
         for (TouristAttraction attraction : attractions) {
-            if (attraction.getName() == name) {
+            if (attraction.getName().equals(name)){
                 return attraction;
             }
         }
