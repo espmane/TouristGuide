@@ -7,32 +7,20 @@ import java.util.*;
 public class TouristRepository {
 
     private final List<TouristAttraction> attractions = new ArrayList<>();
-    private String UserAttraction;
+    private String attractions =;
 
+    public TouristAttractionRepository() { populateAttractions();}
 
-    public void AttractionRepositoruy() {
-        spitAttractions();
+    private void populateAttractions(){
+    while (attractionId <= 5) {
+        attractions.add(new TouristAttraction(attractionId, "tivoli er god", +))
+    }
     }
 
-    public void spitAttractions() {
-        while (UserAttraction) {
-            attractions.add(new TouristAttraction(UserAttraction, "Kære", UserAttraction, "Dette er hvad du skal gennemgå i dag "));
-        }
-    }
+    //CreateTouristAttraction
 
-    public List<TouristAttraction> getAllAttractions() {
-        return attractions;
-    }
+    //DeleteTouristAtrraction
 
-    public TouristAttraction findAttractionsByName(String name) {
-        for (TouristAttraction attraction : attractions) {
-            if (attraction.getName() == name) {
-                return attraction;
-            }
-        }
-        return null;
-    }
-
-
+    //UpdateTouristAttraction
 
 }
