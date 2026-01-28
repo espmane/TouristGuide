@@ -30,17 +30,16 @@ public class TouristRepository {
 
     public List<TouristAttraction> getAllAttractions() {
         return attractions;
-
-
     }
 
     public TouristAttraction findAttractionsByName(String name) {
         for (TouristAttraction attraction : attractions) {
-            if (attraction.getName().equals(name)){
+            if (attraction.getName().equals(name)) {
                 return attraction;
             }
         }
 
         return null;
     }
+    /// /
 }
