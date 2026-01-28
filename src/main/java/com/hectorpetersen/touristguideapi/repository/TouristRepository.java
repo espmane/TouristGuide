@@ -9,7 +9,6 @@ import java.util.*;
 public class TouristRepository {
 
     private final List<TouristAttraction> attractions = new ArrayList<>();
-    private String attractionName;
 
 
     public TouristRepository() {
@@ -17,9 +16,9 @@ public class TouristRepository {
     }
 
     private void theAttractions() {
-        attractions.add(new TouristAttraction(attractionName, "Tivoli: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
-        attractions.add(new TouristAttraction(attractionName, "Legoland: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
-        attractions.add(new TouristAttraction(attractionName, "Bakken: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
+        attractions.add(new TouristAttraction("EK","Ehvervesakademi"));
+        attractions.add(new TouristAttraction("Mash","Spisested"));
+        attractions.add(new TouristAttraction("Tivoli","Forlystelsespark"));
 
 
         for (TouristAttraction a : attractions) {
