@@ -16,7 +16,7 @@ public class TouristRepository {
 
     private void theAttractions() {
         attractions.add(new TouristAttraction(attractionName, "Tivoli: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
-        attractions.add(new TouristAttraction(attractionName, "Tivoli: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
+        attractions.add(new TouristAttraction(attractionName, "Museum: " + attractionName + "Her kan du se malerier, og drikke te "));
         attractions.add(new TouristAttraction(attractionName, "Tivoli: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
         attractions.remove(0);
 
