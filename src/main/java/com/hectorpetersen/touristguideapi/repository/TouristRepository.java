@@ -18,9 +18,8 @@ public class TouristRepository {
 
     private void theAttractions() {
         attractions.add(new TouristAttraction(attractionName, "Tivoli: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
-        attractions.add(new TouristAttraction(attractionName, "Tivoli: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
-        attractions.add(new TouristAttraction(attractionName, "Tivoli: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
-        attractions.remove(0);
+        attractions.add(new TouristAttraction(attractionName, "Legoland: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
+        attractions.add(new TouristAttraction(attractionName, "Bakken: " + attractionName + "Her kan du prøve forlystelser og spise god mad "));
 
 
         for (TouristAttraction a : attractions) {
@@ -41,5 +40,22 @@ public class TouristRepository {
 
         return null;
     }
-    /// /
+
+    public void createNewAttraction(String name, String description) {
+        TouristAttraction attraction = new TouristAttraction(name, description);
+        attractions.add(attraction);
+    }
+
+    public void deleteAttraction(String name) {
+        TouristAttraction attraction = findAttractionsByName(name);
+        attractions.remove(attraction);
+    }
+
+    public void updateAttraction(String name, String description) {
+        TouristAttraction attraction = findAttractionsByName(name);
+        if (!description.equals(attraction.getDescription())) {
+            attraction.setDescription(description);
+        }
+        //TODO kast en error kode tilbage hvis noget går galt
+    }
 }
