@@ -16,12 +16,12 @@ public class TouristService {
         this.repository = repository;
     }
 
-    public List<TouristAttraction> getTouristAttraction() {
-        return repository.getTouristAttractions();
+    public List<TouristAttraction> getAllAttractions() {
+        return repository.getAllAttractions();
     }
 
-    public TouristAttraction findAttractionByName(String name) {
-        TouristAttraction touristAttraction = repository.findAttractionByName(name);
+    public TouristAttraction findAttractionsByName(String name) {
+        TouristAttraction touristAttraction = repository.findAttractionsByName(name);
 
         if (name != null && name.equals(touristAttraction.getName())) {
             return touristAttraction;
