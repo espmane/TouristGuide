@@ -16,9 +16,9 @@ public class TouristRepository {
     }
 
     private void theAttractions() {
-        attractions.add(new TouristAttraction("EK","Ehvervesakademi"));
-        attractions.add(new TouristAttraction("Mash","Spisested"));
-        attractions.add(new TouristAttraction("Tivoli","Forlystelsespark"));
+        attractions.add(new TouristAttraction("EK", "Ehvervesakademi"));
+        attractions.add(new TouristAttraction("Mash", "Spisested"));
+        attractions.add(new TouristAttraction("Tivoli", "Forlystelsespark"));
 
 
         for (TouristAttraction a : attractions) {
@@ -32,7 +32,7 @@ public class TouristRepository {
 
     public TouristAttraction findAttractionsByName(String name) {
         for (TouristAttraction attraction : attractions) {
-            if (attraction.getName().equals(name)) {
+            if (attraction.getName().equalsIgnoreCase(name)) {
                 return attraction;
             }
         }

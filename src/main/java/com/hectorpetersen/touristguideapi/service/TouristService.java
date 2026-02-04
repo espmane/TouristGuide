@@ -5,7 +5,6 @@ import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import com.hectorpetersen.touristguideapi.repository.TouristRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,10 +36,9 @@ public class TouristService {
         repository.deleteAttraction(name);
     }
 
-    public void updateAttraction(String name, String description){
+    public void updateAttraction(String name, String description) {
         repository.updateAttraction(name, description);
     }
-
 
 
 }
