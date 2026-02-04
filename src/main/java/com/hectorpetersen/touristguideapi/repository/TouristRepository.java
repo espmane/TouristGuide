@@ -40,9 +40,10 @@ public class TouristRepository {
         return null;
     }
 
-    public void createNewAttraction(String name, String description) {
+    public TouristAttraction createNewAttraction(String name, String description) {
         TouristAttraction attraction = new TouristAttraction(name, description);
         attractions.add(attraction);
+        return attraction;
     }
 
     public void deleteAttraction(String name) {

@@ -28,8 +28,8 @@ public class TouristService {
         return null;
     }
 
-    public void createAttraction(String name, String description) {
-        repository.createNewAttraction(name, description);
+    public TouristAttraction createAttraction(String name, String description) {
+        return repository.createNewAttraction(name, description);
     }
 
     public void deleteAttraction(String name) {

@@ -2,11 +2,9 @@ package com.hectorpetersen.touristguideapi.controller;
 
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import com.hectorpetersen.touristguideapi.service.TouristService;
-import com.sun.net.httpserver.HttpsServer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import org.springframework.stereotype.Controller;
@@ -42,4 +40,21 @@ public class TouristController {
         }
         return new ResponseEntity<>(found, HttpStatus.OK);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<TouristAttraction> addNewAttraction(@RequestBody String name, String description){
+        return new ResponseEntity<>(service.createAttraction(name, description), HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<TouristAttraction> updateAttraction(@RequestBody String name, String newDescription){
+        service.updateAttraction(name, newDescription);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+//    @PostMapping("/delete/{name}")
+//    public ResponseEntity<TouristAttraction> deleteByName(){
+//
+//    }
+
 }
