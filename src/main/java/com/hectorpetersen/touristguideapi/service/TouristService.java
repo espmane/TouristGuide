@@ -36,10 +36,9 @@ public class TouristService {
         return repository.deleteAttraction(attraction);
     }
 
-    public void updateAttraction(String name, String description) {
-        repository.updateAttraction(name, description);
+    public TouristAttraction updateAttraction(String name, String newDescription) {
+        return repository.updateAttraction(name, newDescription);
     }
 
 
 }
-//aa

@@ -50,12 +50,12 @@ public class TouristRepository {
         return attraction;
     }
 
-    public void updateAttraction(String name, String description) {
+    public TouristAttraction updateAttraction(String name, String newDescription) {
         TouristAttraction attraction = findAttractionsByName(name);
-        if (!description.equals(attraction.getDescription())) {
-            attraction.setDescription(description);
+        if (!newDescription.equals(attraction.getDescription())) {
+            attraction.setDescription(newDescription);
+            return attraction;
         }
-        //TODO kast en error kode tilbage hvis noget går galt
+        return null;
     }
 }
-//aa
