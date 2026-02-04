@@ -31,6 +31,6 @@ public class TouristAttraction {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
-        //m
+
     }
 }
