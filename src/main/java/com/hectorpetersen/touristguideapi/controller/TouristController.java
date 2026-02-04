@@ -59,11 +59,11 @@ public class TouristController {
         return new ResponseEntity<>(updatedAttraction, HttpStatus.OK);
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<TouristAttraction> deleteAttraction(@RequestBody TouristAttraction attraction) {
-        TouristAttraction deletedAttraction = service.deleteAttraction(attraction);
+    @PostMapping("/delete/{name}")
+    public ResponseEntity<TouristAttraction> deleteAttraction(@PathVariable String name) {
+        TouristAttraction deletedAttraction = service.deleteAttraction(name);
         if (deletedAttraction == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(deletedAttraction, HttpStatus.OK);
     }

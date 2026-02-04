@@ -45,9 +45,10 @@ public class TouristRepository {
         return attraction;
     }
 
-    public TouristAttraction deleteAttraction(TouristAttraction attraction) {
-        attractions.remove(attraction);
-        return attraction;
+    public TouristAttraction deleteAttraction(String name) {
+        TouristAttraction deleteAttraction = findAttractionsByName(name);
+        attractions.remove(deleteAttraction);
+        return deleteAttraction;
     }
 
     public TouristAttraction updateAttraction(String name, String newDescription) {
