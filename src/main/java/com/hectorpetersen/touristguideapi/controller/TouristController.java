@@ -61,7 +61,10 @@ public class TouristController {
 
     @PostMapping("/delete")
     public ResponseEntity<TouristAttraction> deleteAttraction(@RequestBody TouristAttraction attraction) {
-        TouristAttraction attraction1 = service.deleteAttraction(attraction);
-        return ResponseEntity.ok(attraction1);
+        TouristAttraction deletedAttraction = service.deleteAttraction(attraction);
+        if (deletedAttraction == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(deletedAttraction, HttpStatus.OK);
     }
 }
