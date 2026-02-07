@@ -16,7 +16,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/attractions")
-
 public class TouristController {
 
     private final TouristService service;
@@ -28,15 +27,14 @@ public class TouristController {
     @GetMapping
     public ResponseEntity<List<TouristAttraction>> GetAll() {
         List<TouristAttraction> attractions = service.getAllAttractions();
-        return new ResponseEntity<>(attractions, HttpStatus.CREATED);
-
+        return new ResponseEntity<>(attractions, HttpStatus.OK);
     }
 
     @GetMapping("/{name}")
     public ResponseEntity<TouristAttraction> getByName(@PathVariable String name) {
         TouristAttraction found = service.findAttractionsByName(name);
         if (found == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(found, HttpStatus.OK);
     }
@@ -47,14 +45,14 @@ public class TouristController {
         if (createAttraction == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(createAttraction, HttpStatus.OK);
+        return new ResponseEntity<>(createAttraction, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<TouristAttraction> updateAttraction(@RequestBody String name, String newDescription) {
-        TouristAttraction updatedAttraction = service.updateAttraction(name, newDescription);
+    @PostMapping("/update")
+    public ResponseEntity<TouristAttraction> updateAttraction(@RequestBody TouristAttraction attraction) {
+        TouristAttraction updatedAttraction = service.updateAttraction(attraction);
         if (updatedAttraction == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(updatedAttraction, HttpStatus.OK);
     }

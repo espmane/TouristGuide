@@ -10,16 +10,10 @@ public class TouristRepository {
 
     private final List<TouristAttraction> attractions = new ArrayList<>();
 
-
     public TouristRepository() {
-        theAttractions();
-    }
-
-    private void theAttractions() {
         attractions.add(new TouristAttraction("EK", "Ehvervesakademi"));
         attractions.add(new TouristAttraction("Mash", "Spisested"));
         attractions.add(new TouristAttraction("Tivoli", "Forlystelsespark"));
-
 
         for (TouristAttraction a : attractions) {
             System.out.println(a);
@@ -36,11 +30,13 @@ public class TouristRepository {
                 return attraction;
             }
         }
-
         return null;
     }
 
     public TouristAttraction createNewAttraction(TouristAttraction attraction) {
+        if (findAttractionsByName(attraction.getName()) != null) {
+            return null;
+        }
         attractions.add(attraction);
         return attraction;
     }
@@ -51,12 +47,11 @@ public class TouristRepository {
         return deleteAttraction;
     }
 
-    public TouristAttraction updateAttraction(String name, String newDescription) {
-        TouristAttraction attraction = findAttractionsByName(name);
-        if (!newDescription.equals(attraction.getDescription())) {
-            attraction.setDescription(newDescription);
-            return attraction;
+    public TouristAttraction updateAttraction(TouristAttraction touristAttraction) {
+        TouristAttraction attraction = findAttractionsByName(touristAttraction.getName());
+        if (attraction != null) {
+            attraction.setDescription(touristAttraction.getDescription());
         }
-        return null;
+        return attraction;
     }
 }
