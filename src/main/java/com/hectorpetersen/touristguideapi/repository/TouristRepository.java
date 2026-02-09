@@ -26,7 +26,7 @@ public class TouristRepository {
 
     public TouristAttraction findAttractionsByName(String name) {
         for (TouristAttraction attraction : attractions) {
-            if (attraction.getName().equalsIgnoreCase(name)) {
+            if (name.equalsIgnoreCase(attraction.getName())) {
                 return attraction;
             }
         }

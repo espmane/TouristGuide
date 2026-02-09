@@ -20,12 +20,7 @@ public class TouristService {
     }
 
     public TouristAttraction findAttractionsByName(String name) {
-        TouristAttraction touristAttraction = repository.findAttractionsByName(name);
-
-        if (name != null && name.equals(touristAttraction.getName())) {
-            return touristAttraction;
-        }
-        return null;
+        return repository.findAttractionsByName(name);
     }
 
     public TouristAttraction createAttraction(TouristAttraction attraction) {
