@@ -1,5 +1,6 @@
 package com.hectorpetersen.touristguideapi.repository;
 
+import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import org.springframework.stereotype.Repository;
 
@@ -9,16 +10,35 @@ import java.util.*;
 public class TouristRepository {
 
     private final List<TouristAttraction> attractions = new ArrayList<>();
+    private int nextId = 1;
 
     public TouristRepository() {
-        attractions.add(new TouristAttraction("EK", "Ehvervesakademi"));
-        attractions.add(new TouristAttraction("Mash", "Spisested"));
-        attractions.add(new TouristAttraction("Tivoli", "Forlystelsespark"));
-
+        populate();
         for (TouristAttraction a : attractions) {
             System.out.println(a);
         }
     }
+
+    public TouristAttraction save(TouristAttraction attraction) {
+        attraction.setAttractionId(nextId++);
+        attractions.add(attraction);
+        return attraction;
+    }
+
+    public void populate() {
+        save(new TouristAttraction("EK", "Ehvervesakademi", "København", Tags.BØRNEVENLIG));
+        save(new TouristAttraction("Mash", "Spisested", "København", Tags.KUNST));
+        save(new TouristAttraction("Tivoli", "Forlystelsespark", "København", Tags.FORLYSTELSESPARK));
+    }
+
+//    public List<String> getCities() {
+//        // TODO: liste af byer
+//
+//    }
+
+//    public List<String> getTags() {
+//        // TODO: liste af tags
+//    }
 
     public List<TouristAttraction> getAllAttractions() {
         return attractions;
