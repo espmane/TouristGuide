@@ -63,5 +63,6 @@ public class TouristAttraction {
                 ", city='" + city + '\'' +
                 ", tag=" + tag +
                 '}';
+
     }
 }
