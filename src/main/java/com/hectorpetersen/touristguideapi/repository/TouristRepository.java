@@ -4,7 +4,8 @@ import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class TouristRepository {
@@ -71,6 +72,8 @@ public class TouristRepository {
         TouristAttraction attraction = findAttractionsByName(touristAttraction.getName());
         if (attraction != null) {
             attraction.setDescription(touristAttraction.getDescription());
+            attraction.setTag(touristAttraction.getTag());
+            attraction.setCity(touristAttraction.getCity());
         }
         return attraction;
     }
