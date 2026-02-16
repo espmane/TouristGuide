@@ -1,5 +1,6 @@
 package com.hectorpetersen.touristguideapi.controller;
 
+import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import com.hectorpetersen.touristguideapi.service.TouristService;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,15 @@ public class TouristController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(found, HttpStatus.OK);
+    }
+
+    @GetMapping("/{name}/tags")
+    public ResponseEntity<Tags> getAttractionTagsByName(@PathVariable String name) {
+        TouristAttraction foundAttraction = service.findAttractionsByName(name);
+        if (foundAttraction == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(foundAttraction.getTag(), HttpStatus.OK);
     }
 
     @PostMapping("/add")
