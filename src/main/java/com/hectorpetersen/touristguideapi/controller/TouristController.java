@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/attractions")
+@RequestMapping
 public class TouristController {
 
     private final TouristService service;
@@ -24,19 +25,20 @@ public class TouristController {
         this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<List<TouristAttraction>> GetAll() {
+    @GetMapping("/attractions")
+    public String GetAll(Model model) {
         List<TouristAttraction> attractions = service.getAllAttractions();
-        return new ResponseEntity<>(attractions, HttpStatus.OK);
+        model.addAttribute("attractions", attractions);
+        return "attractionsList";
+
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<TouristAttraction> getByName(@PathVariable String name) {
-        TouristAttraction found = service.findAttractionsByName(name);
-        if (found == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(found, HttpStatus.OK);
+    public String getByName(@PathVariable String name, Model model) {
+        TouristAttraction attractions = service.findAttractionsByName(name);
+        model.addAttribute("name", attractions);
+        return "tags";
+
     }
 
     @PostMapping("/add")
