@@ -38,12 +38,12 @@ public class TouristController {
     }
 
     @GetMapping("/{name}/tags")
-    public ResponseEntity<Tags> getAttractionTagsByName(@PathVariable String name) {
+    public String getAttractionTagsByName(@PathVariable String name) {
         TouristAttraction foundAttraction = service.findAttractionsByName(name);
         if (foundAttraction == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return "redirect:/attractions/error";
         }
-        return new ResponseEntity<>(foundAttraction.getTag(), HttpStatus.OK);
+        return "tags";
     }
 
     @PostMapping("/add")
