@@ -5,10 +5,6 @@ import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import com.hectorpetersen.touristguideapi.service.TouristService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-
-import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,15 +36,6 @@ public class TouristController {
         model.addAttribute("name", attractions);
         return "tags";
 
-    }
-
-    @GetMapping("/{name}/tags")
-    public String getAttractionTagsByName(@PathVariable String name) {
-        TouristAttraction foundAttraction = service.findAttractionsByName(name);
-        if (foundAttraction == null) {
-            return "redirect:/attractions/error";
-        }
-        return "tags";
     }
 
     @GetMapping("/{name}/tags")
