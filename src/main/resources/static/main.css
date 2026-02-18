@@ -1,0 +1,16 @@
+body{
+    font-family: Verdana, sans-serif;
+    margin: 35px;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px;
+    text-align: center;
+}

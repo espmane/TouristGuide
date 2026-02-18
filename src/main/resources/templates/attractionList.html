@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Attraktioner</title>
+    <link th:href="@{/main.css}" rel="stylesheet">
 </head>
 <body>
+<h1>Turistattraktioner</h1>
+
+<p th:text="'Antal attraktioner: ' + ${attractions.size()}"></p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Navn:</th>
+        <th>Beskrivelse:</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="a : ${attractions}">
+        <td th:text="${a.name}">Navn</td>
+        <td th:text="${a.description}">Beskrivelse</td>
+
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

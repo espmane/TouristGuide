@@ -4,6 +4,7 @@ import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import com.hectorpetersen.touristguideapi.service.TouristService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,10 +25,10 @@ public class TouristController {
         this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<List<TouristAttraction>> GetAll() {
-        List<TouristAttraction> attractions = service.getAllAttractions();
-        return new ResponseEntity<>(attractions, HttpStatus.OK);
+    @GetMapping //http://localhost:8080/attractions
+    public String GetAll(Model model) {
+        model.addAttribute("attractions", service.getAllAttractions());
+        return "attractionList";
     }
 
     @GetMapping("/{name}")
