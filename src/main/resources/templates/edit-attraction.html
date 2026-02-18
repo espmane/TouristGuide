@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Turistguiden - Rediger attraktion</title>
+</head>
+<body>
+<h1>Rediger <span th:text="${attraction.name}"></span></h1>
+
+<form id="object" th:action="@{/attractions/update}" th:object="${attraction}" method="post">
+    <input type="hidden" th:field="*{name}"/>
+
+    <label for="description">Beskrivelse:</label>
+    <input type="text" id="description" th:field="*{description}"/>
+    <br/>
+
+    <label for="city">By:</label>
+    <input type="text" id="city" th:field="*{city}"/>
+    <br/>
+    <a th:href="@{/attractions/*{name}}">
+        <button>Tags</button>
+    </a>
+
+    <label for="tag">Tag:</label>
+    <select id="tag" th:field="*{tag}">
+        <option th:each="tag : ${tags}" th:value="${tag}" th:text="${tag.getDisplayName()}"></option>
+    </select>
+    <br/>
+
+    <button type="submit">Opdater</button>
+</form>
+</body>
+</html>
