@@ -13,7 +13,6 @@ public class TouristAttraction {
         this.city = city;
         this.tag = tag;
     }
-
     public String getName() {
         return name;
     }

@@ -37,6 +37,15 @@ public class TouristController {
         return new ResponseEntity<>(found, HttpStatus.OK);
     }
 
+    @GetMapping("/{name}/tags")
+    public ResponseEntity<Tags> getAttractionTagsByName(@PathVariable String name) {
+        TouristAttraction foundAttraction = service.findAttractionsByName(name);
+        if (foundAttraction == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(foundAttraction.getTag(), HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<TouristAttraction> addNewAttraction(@RequestBody TouristAttraction attraction) {
         TouristAttraction createAttraction = service.createAttraction(attraction);
