@@ -47,32 +47,33 @@ public class TouristController {
         return "tags";
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<TouristAttraction> addNewAttraction(@RequestBody TouristAttraction attraction) {
-        TouristAttraction createAttraction = service.createAttraction(attraction);
-        if (createAttraction == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(createAttraction, HttpStatus.CREATED);
+    @GetMapping("/add")
+    public String addAttraction(Model model) {
+        model.addAttribute("attraction", new TouristAttraction());
+        model.addAttribute("tags", Tags.values());
+        return "add-attraction";
     }
 
     @GetMapping("/{name}/edit")
     public String editAttraction(@PathVariable String name, Model model) {
         TouristAttraction foundAttraction = service.findAttractionsByName(name);
-        if (foundAttraction == null) {
-            return "redirect:attractions/error";
-        }
         model.addAttribute("attraction", foundAttraction);
         model.addAttribute("tags", Tags.values());
         return "edit-attraction";
     }
 
+    @PostMapping("/save")
+    public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
+        TouristAttraction newAttraction = service.createAttraction(attraction);
+        if (newAttraction == null) {
+            return null;
+        }
+        return "redirect:/attractions";
+    }
+
     @PostMapping("/update")
     public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
         TouristAttraction updatedAttraction = service.updateAttraction(attraction);
-        if (updatedAttraction == null) {
-            return "redirect:attractions/error";
-        }
         return "redirect:/attractions/" + updatedAttraction.getName();
     }
 

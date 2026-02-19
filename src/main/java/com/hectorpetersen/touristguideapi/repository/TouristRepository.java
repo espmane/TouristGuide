@@ -58,6 +58,7 @@ public class TouristRepository {
         if (findAttractionsByName(attraction.getName()) != null) {
             return null;
         }
+        attraction.setAttractionId(nextId++);
         attractions.add(attraction);
         return attraction;
     }

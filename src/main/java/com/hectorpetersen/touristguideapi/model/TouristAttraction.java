@@ -14,6 +14,9 @@ public class TouristAttraction {
         this.tag = tag;
     }
 
+    public TouristAttraction() {
+    }
+
     public String getName() {
         return name;
     }
