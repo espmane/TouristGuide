@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${attraction.name} + 's tags'"></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="site-box" align="center" th:object="${attraction}">
+    <br>
+    <h2><span th:text="*{name}"></span></h2>
+    <br>
+
+    <table class="table table-bordered" style="width: 600px;">
+        <thead>
+        <tr>
+            <th scope="col" class="text-center">Tag</th>
+        </tr>
+        </thead>
+        <tbody>
+        <td th:text="*{tag.displayName}"></td>
+        </tbody>
+    </table>
+    <form th:action="@{/attractions}" method="get">
+        <button type="submit" class="btn btn-outline-primary">Gå tilbage</button>
+    </form>
+</div>
+</body>
+</html>

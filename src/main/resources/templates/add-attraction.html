@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="'Rediger ' + ${attraction.name}"></title>
+    <title>Turistguide - Tilføj attraktion</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 </head>
 <body>
 <div class="site-box" align="center" th:object="${attraction}">
     <br>
-    <h2>Rediger <span th:text="${attraction.name}"></span></h2>
+    <h1>Tilføj attraktion</h1>
     <br>
 
-    <form th:action="@{/attractions/update}" method="post">
-        <input type="hidden" th:field="*{name}"/>
-
-        <table class="table table-bordered" style="width: 600px;">
+    <form th:action="@{save}" method="post">
+        <table class="table table-bordered" style="width: 600px;" align="center">
+            <tr>
+                <th><label for="name">Navn:</label></th>
+                <td><input type="text" id="name" th:field="*{name}"/></td>
+            </tr>
             <tr>
                 <th><label for="city">By:</label></th>
                 <td><input type="text" id="city" th:field="*{city}"/></td>
@@ -32,7 +33,7 @@
                 </td>
             </tr>
         </table>
-        <button type="submit" class="btn btn-outline-primary">Opdater</button>
+        <button type="submit" class="btn btn-outline-primary">Gem attraktion</button>
     </form>
 </div>
 </body>

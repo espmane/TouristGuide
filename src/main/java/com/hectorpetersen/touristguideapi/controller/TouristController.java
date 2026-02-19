@@ -22,29 +22,26 @@ public class TouristController {
         this.service = service;
     }
 
-    @GetMapping("/attractions")
-    public String GetAll(Model model) {
+    @GetMapping()
+    public String getAll(Model model) {
         List<TouristAttraction> attractions = service.getAllAttractions();
         model.addAttribute("attractions", attractions);
-        return "attractionsList";
+        return "attractions-list";
 
     }
 
     @GetMapping("/{name}")
     public String getByName(@PathVariable String name, Model model) {
         TouristAttraction attractions = service.findAttractionsByName(name);
-        model.addAttribute("name", attractions);
-        return "tags";
-
+        model.addAttribute("attraction", attractions);
+        return "attraction";
     }
 
     @GetMapping("/{name}/tags")
-    public String getAttractionTagsByName(@PathVariable String name) {
+    public String getAttractionTagsByName(@PathVariable String name, Model model) {
         TouristAttraction foundAttraction = service.findAttractionsByName(name);
-        if (foundAttraction == null) {
-            return "redirect:/attractions/error";
-        }
-        return "tags";
+        model.addAttribute("attraction", foundAttraction);
+        return "attraction-tags";
     }
 
     @GetMapping("/add")
