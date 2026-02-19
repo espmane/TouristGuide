@@ -22,7 +22,9 @@
         </thead>
         <tbody>
         <tr th:each="attraction : ${attractions}">
-            <td th:text="${attraction.name}"></td>
+            <td>
+                <a th:href="@{attractions/{name}(name=${attraction.name})}" th:text="${attraction.name}"></a>
+            </td>
             <td th:text="${attraction.description}"></td>
             <td>
                 <form th:action="@{/attractions/{name}/tags(name=${attraction.name})}" method="get">
@@ -32,6 +34,9 @@
         </tr>
         </tbody>
     </table>
+
+    <a th:href="@{/attractions/add}" class="btn btn-outline-primary">Tilføj attraktion</a>
+
 </div>
 
 </body>

@@ -31,9 +31,9 @@
         </tr>
         </tbody>
     </table>
-    <form th:action="@{/attractions}" method="get">
-        <button type="submit" class="btn btn-outline-primary">Gå tilbage</button>
-    </form>
+    <a th:href="@{/attractions}" class="btn btn-outline-primary">Gå tilbage</a>
+    <a th:href="@{/attractions/{name}/edit(name=${attraction.name})}" class="btn btn-outline-primary">Opdater</a>
+
 </div>
 </body>
 </html>
