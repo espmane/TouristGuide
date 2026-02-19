@@ -17,7 +17,11 @@
         <table class="table table-bordered" style="width: 600px;">
             <tr>
                 <th><label for="city">By:</label></th>
-                <td><input type="text" id="city" th:field="*{city}"/></td>
+                <td>
+                    <select id="city" th:field="*{city}" class="form-select">
+                        <option th:each="city : ${cities}" th:value="${city}" th:text="${city.displayName}"></option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <th><label for="description">Beskrivelse:</label></th>

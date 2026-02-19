@@ -1,5 +1,6 @@
 package com.hectorpetersen.touristguideapi.controller;
 
+import com.hectorpetersen.touristguideapi.model.Cities;
 import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import com.hectorpetersen.touristguideapi.service.TouristService;
@@ -48,6 +49,7 @@ public class TouristController {
     public String addAttraction(Model model) {
         model.addAttribute("attraction", new TouristAttraction());
         model.addAttribute("tags", Tags.values());
+        model.addAttribute("cities", Cities.values());
         return "add-attraction";
     }
 
@@ -56,6 +58,7 @@ public class TouristController {
         TouristAttraction foundAttraction = service.findAttractionsByName(name);
         model.addAttribute("attraction", foundAttraction);
         model.addAttribute("tags", Tags.values());
+        model.addAttribute("cities", Cities.values());
         return "edit-attraction";
     }
 
