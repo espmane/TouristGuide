@@ -23,8 +23,11 @@
             <td th:text="*{description}"></td>
         </tr>
         <tr>
-            <th>Tag</th>
-            <td th:text="*{tag.displayName}"></td>
+            <th>Tags</th>
+            <td>
+                <div th:each="tag : *{tags}" th:text="${tag.displayName}">
+                </div>
+            </td>
         </tr>
         </tbody>
     </table>

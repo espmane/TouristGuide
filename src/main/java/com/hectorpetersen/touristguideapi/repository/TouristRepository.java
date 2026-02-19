@@ -27,9 +27,9 @@ public class TouristRepository {
     }
 
     public void populate() {
-        save(new TouristAttraction("EK", "Ehvervesakademi", "København", Tags.BØRNEVENLIG));
-        save(new TouristAttraction("Mash", "Spisested", "København", Tags.KUNST));
-        save(new TouristAttraction("Tivoli", "Forlystelsespark", "København", Tags.FORLYSTELSESPARK));
+        save(new TouristAttraction("EK", "Ehvervesakademi", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS)));
+        save(new TouristAttraction("Mash", "Spisested", "København", List.of(Tags.DYRT, Tags.OPLEVELSE)));
+        save(new TouristAttraction("Tivoli", "Forlystelsespark", "København", List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING)));
     }
 
 //    public List<String> getCities() {
@@ -73,7 +73,7 @@ public class TouristRepository {
         TouristAttraction attraction = findAttractionsByName(touristAttraction.getName());
         if (attraction != null) {
             attraction.setDescription(touristAttraction.getDescription());
-            attraction.setTag(touristAttraction.getTag());
+            attraction.setTags(touristAttraction.getTags());
             attraction.setCity(touristAttraction.getCity());
         }
         return attraction;

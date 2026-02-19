@@ -13,9 +13,14 @@
 
     <table class="table table-bordered" style="width: 600px;">
         <thead>
+        <tr>
+            <th>Tags</th>
+        </tr>
         </thead>
         <tbody>
-        <td th:text="*{tag.displayName}"></td>
+        <tr th:each="tag : *{tags}">
+            <td th:text="${tag}"></td>
+        </tr>
         </tbody>
     </table>
     <form th:action="@{/attractions}" method="get">

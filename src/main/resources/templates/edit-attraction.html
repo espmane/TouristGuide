@@ -24,11 +24,16 @@
                 <td><textarea id="description" th:field="*{description}"></textarea></td>
             </tr>
             <tr>
-                <th><label for="tag">Tag:</label></th>
+                <th>Tag:</th>
                 <td>
-                    <select id="tag" th:field="*{tag}" class="form-select">
-                        <option th:each="tag : ${tags}" th:value="${tag}" th:text="${tag.getDisplayName()}"></option>
-                    </select>
+                    <nav th:each="tag : ${tags}">
+                        <label>
+                            <input type="checkbox"
+                                   th:field="*{tags}"
+                                   th:value="${tag}"/>
+                            <span th:text="${tag.displayName}"></span>
+                        </label>
+                    </nav>
                 </td>
             </tr>
         </table>
