@@ -22,7 +22,7 @@ public class TouristController {
         this.service = service;
     }
 
-    @GetMapping("/attractions")
+    @GetMapping
     public String GetAll(Model model) {
         List<TouristAttraction> attractions = service.getAllAttractions();
         model.addAttribute("attractions", attractions);
@@ -68,13 +68,15 @@ public class TouristController {
     }
 
     @PostMapping("/update")
-    public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
-        TouristAttraction updatedAttraction = service.updateAttraction(attraction);
-        if (updatedAttraction == null) {
-            return "redirect:attractions/error";
+    public String updateAttraction(@ModelAttribute TouristAttraction attraction, Model model) {
+        TouristAttraction updated = service.updateAttraction(attraction);
+        if (updated == null) {
+            return "redirect:/attractions/error";
         }
-        return "redirect:/attractions/" + updatedAttraction.getName();
+        model.addAttribute("attraction", updated);
+        return "update-attraction";
     }
+
 
     @PostMapping("/delete/{name}") //@Deletemapping kunne også bruges
     public ResponseEntity<TouristAttraction> deleteAttraction(@PathVariable String name) {
@@ -90,4 +92,5 @@ public class TouristController {
         //model.addAttribute("error", message); // vi kunne tilføje en error besked når vi redirecter, og så vise den på error siden
         return "error";
     }
+
 }

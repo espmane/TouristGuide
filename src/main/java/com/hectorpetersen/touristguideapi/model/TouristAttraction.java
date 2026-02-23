@@ -7,6 +7,16 @@ public class TouristAttraction {
     private String city;
     private Tags tag;
 
+    // No-arg constructor required for Spring's data binding
+    public TouristAttraction() {
+    }
+
+    // Keep convenience constructors
+    public TouristAttraction(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public TouristAttraction(String name, String description, String city, Tags tag) {
         this.name = name;
         this.description = description;
