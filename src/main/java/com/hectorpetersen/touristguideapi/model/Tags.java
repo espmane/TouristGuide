@@ -1,7 +1,21 @@
 package com.hectorpetersen.touristguideapi.model;
 
 public enum Tags {
-    BØRNEVENLIG, GRATIS, KUNST, MUSEUM, NATUR, FORLYSTELSESPARK;
+    GRATIS,
+    BILLIG,
+    DYRT,
+    INDENDØRS,
+    UDENDØRS,
+    SKOLE,
+    BØRNEVENLIG,
+    MUSEUM,
+    KUNST,
+    OPLEVELSE,
+    AKTIVITET,
+    UNDERHOLDNING,
+    DYRELIV,
+    HISTORIE,
+    VIDENSKAB;
 
     public String getDisplayName() {
         String name = this.name();

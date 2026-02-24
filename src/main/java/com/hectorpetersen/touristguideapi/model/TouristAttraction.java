@@ -1,27 +1,23 @@
 package com.hectorpetersen.touristguideapi.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TouristAttraction {
     private String name;
     private String description;
     private int attractionId;
     private String city;
-    private Tags tag;
+    private List<Tags> tags = new ArrayList<>();
 
-    // No-arg constructor required for Spring's data binding
-    public TouristAttraction() {
-    }
-
-    // Keep convenience constructors
-    public TouristAttraction(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public TouristAttraction(String name, String description, String city, Tags tag) {
+    public TouristAttraction(String name, String description, String city, List<Tags> tags) {
         this.name = name;
         this.description = description;
         this.city = city;
-        this.tag = tag;
+        this.tags = tags;
+    }
+
+    public TouristAttraction() {
     }
 
     public String getName() {
@@ -56,12 +52,12 @@ public class TouristAttraction {
         this.city = city;
     }
 
-    public Tags getTag() {
-        return tag;
+    public List<Tags> getTags() {
+        return tags;
     }
 
-    public void setTag(Tags tag) {
-        this.tag = tag;
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
     }
 
     @Override
@@ -71,7 +67,7 @@ public class TouristAttraction {
                 ", description='" + description + '\'' +
                 ", attractionId=" + attractionId +
                 ", city='" + city + '\'' +
-                ", tag=" + tag +
+                ", tags=" + tags +
                 '}';
     }
 }
