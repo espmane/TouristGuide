@@ -68,8 +68,8 @@ class TouristControllerTest {
                 .param("description", "Forlystelsespark")
                 .param("city", "København")
                 .param("tags", String.valueOf(List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING))))
-                .andExpect(status().is3xxRedirection());
-                //.andExpect(view().name("redirect:/attractions/" + "Tivoli"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/attractions/tivoli"));
 
     }
 
