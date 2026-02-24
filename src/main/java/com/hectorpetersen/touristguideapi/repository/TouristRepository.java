@@ -42,10 +42,6 @@ public class TouristRepository {
         return listOfCities;
     }
 
-//    public List<String> getTags() {
-//        // TODO: liste af tags
-//    }
-
     public List<TouristAttraction> getAllAttractions() {
         return attractions;
     }

@@ -14,14 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mockito.Mock;
-
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
-@WebMvcTest(TouristControllerTest.class)
+@WebMvcTest(TouristController.class)
 class TouristControllerTest {
 
     @Autowired
@@ -32,9 +30,9 @@ class TouristControllerTest {
 
     @Test
     void getAll() throws Exception {
-        TouristAttraction attraction1 = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS) );
+        TouristAttraction attraction1 = new TouristAttraction("Tivoli", "Forlystelsespark", "København", List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING));
         TouristAttraction attraction2 = new TouristAttraction("Mash", "Spisested", "København", List.of(Tags.DYRT, Tags.OPLEVELSE));
-        TouristAttraction attraction3 = new TouristAttraction("Tivoli", "Forlystelsespark", "København", List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING));
+        TouristAttraction attraction3 = new TouristAttraction("EK", "Ehvervesakademi", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
 
         List<TouristAttraction> attractions = new ArrayList<>();
 
@@ -44,7 +42,7 @@ class TouristControllerTest {
 
         when(touristService.getAllAttractions()).thenReturn(attractions);
 
-        mockMvc.perform(get("/"))
+        mockMvc.perform(get("/attractions"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("attractions-list"))
                 .andExpect(model().attributeExists("attractions"))
@@ -61,7 +59,18 @@ class TouristControllerTest {
     }
 
     @Test
-    void updateAttraction() {
+    void updateAttraction() throws Exception {
+        TouristAttraction attraction = new TouristAttraction("Tivoli", "Forlystelsespark", "København", List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING));
+
+        when(touristService.updateAttraction(attraction)).thenReturn(attraction);
+
+        mockMvc.perform(post("/update")
+                .param("description", "Forlystelsespark")
+                .param("city", "København")
+                .param("tags", String.valueOf(List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING))))
+                .andExpect(status().is3xxRedirection());
+                //.andExpect(view().name("redirect:/attractions/" + "Tivoli"));
+
     }
 
     @Test

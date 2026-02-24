@@ -30,7 +30,6 @@ public class TouristController {
         return "attractions-list";
 
     }
-
     @GetMapping("/{name}")
     public String getByName(@PathVariable String name, Model model) {
         TouristAttraction attractions = service.findAttractionsByName(name);
