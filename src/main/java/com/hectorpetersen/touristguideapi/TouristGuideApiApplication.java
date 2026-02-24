@@ -10,4 +10,5 @@ public class TouristGuideApiApplication {
         SpringApplication.run(TouristGuideApiApplication.class, args);
     }
 
+
 }

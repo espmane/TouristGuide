@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${attraction.name}"></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link href="/Touristguide.css" th:href="@{/Touristguide.css}" rel="stylesheet">
+</head>
+<body>
+<div class="site-box" align="center">
+    <br>
+    <h2><span th:text="${attraction.name}"></span></h2>
+    <br>
+
+    <table class="table table-bordered" style="width: 600px;" th:object="${attraction}">
+        <tbody>
+        <tr>
+            <th>By</th>
+            <td th:text="*{city}"></td>
+        </tr>
+        <tr>
+            <th>Beskrivelse</th>
+            <td th:text="*{description}"></td>
+        </tr>
+        <tr>
+            <th>Tags</th>
+            <td>
+                <div th:each="tag : *{tags}" th:text="${tag.displayName}">
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <a th:href="@{/attractions}" class="btn btn-outline-primary">Gå tilbage</a>
+        <a th:href="@{/attractions/{name}/edit(name=${attraction.name})}" class="btn btn-outline-primary">Opdater</a>
+
+        <form th:action="@{delete/{name}(name=${attraction.name})}" th:method="POST" class="d-inline">
+            <button type="submit" class="btn btn-outline-primary">Slet</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
