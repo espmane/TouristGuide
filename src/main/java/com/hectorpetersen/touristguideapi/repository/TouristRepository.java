@@ -23,10 +23,9 @@ public class TouristRepository {
         }
     }
 
-    public TouristAttraction save(TouristAttraction attraction) {
+    public void save(TouristAttraction attraction) {
         attraction.setAttractionId(nextId++);
         attractions.add(attraction);
-        return attraction;
     }
 
     public void populate() {

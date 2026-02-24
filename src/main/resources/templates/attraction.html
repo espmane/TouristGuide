@@ -31,9 +31,14 @@
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/attractions}" class="btn btn-outline-primary">Gå tilbage</a>
-    <a th:href="@{/attractions/{name}/edit(name=${attraction.name})}" class="btn btn-outline-primary">Opdater</a>
+    <div>
+        <a th:href="@{/attractions}" class="btn btn-outline-primary">Gå tilbage</a>
+        <a th:href="@{/attractions/{name}/edit(name=${attraction.name})}" class="btn btn-outline-primary">Opdater</a>
 
+        <form th:action="@{delete/{name}(name=${attraction.name})}" th:method="POST" class="d-inline">
+            <button type="submit" class="btn btn-outline-primary">Slet</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

@@ -77,18 +77,9 @@ public class TouristController {
         return "redirect:/attractions/" + updatedAttraction.getName();
     }
 
-    @PostMapping("/delete/{name}") //@Deletemapping kunne også bruges
-    public ResponseEntity<TouristAttraction> deleteAttraction(@PathVariable String name) {
-        TouristAttraction deletedAttraction = service.deleteAttraction(name);
-        if (deletedAttraction == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(deletedAttraction, HttpStatus.OK);
-    }
-
-    @GetMapping("/error")
-    public String error(@RequestBody String message, Model model) {
-        //model.addAttribute("error", message); // vi kunne tilføje en error besked når vi redirecter, og så vise den på error siden
-        return "error";
+    @PostMapping("/delete/{name}")
+    public String deleteAttraction(@PathVariable String name) {
+        service.deleteAttraction(name);
+        return "redirect:/attractions";
     }
 }
