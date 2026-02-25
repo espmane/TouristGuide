@@ -6,6 +6,7 @@ import com.hectorpetersen.touristguideapi.service.TouristService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -54,15 +55,12 @@ class TouristControllerTest {
     void getByName() throws Exception{
         String name = "Tivoli";
         TouristAttraction attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS) );
-
         when(touristService.findAttractionsByName(name)).thenReturn(attraction);
-
         mockMvc.perform(get("/attractions/{name}", name))
                 .andExpect(status().isOk())
                 .andExpect(view().name("attraction"))
                 .andExpect(model().attributeExists("attraction"))
                 .andExpect(model().attribute("attraction", attraction));
-
     }
 
     @Test
@@ -75,17 +73,26 @@ class TouristControllerTest {
 
         when(touristService.updateAttraction(attraction)).thenReturn(attraction);
 
-        mockMvc.perform(post("/update")
+        mockMvc.perform(post("/attractions/update/Tivoli")
+                        .param("name", "Tivoli")
                 .param("description", "Forlystelsespark")
                 .param("city", "København")
                 .param("tags", String.valueOf(List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING))))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/attractions/tivoli"));
+                .andExpect(view().name("redirect:/attractions"));
 
     }
 
     @Test
-    void deleteAttraction() {
+    void deleteAttraction() throws Exception {
+            TouristAttraction attraction = new TouristAttraction("EK", "Ehvervesakademi", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
+            when(touristService.deleteAttraction("EK")).thenReturn(attraction);
+            mockMvc.perform(post("/attractions/delete/EK")
+                            .param("description", "Ehvervesakademi")
+                            .param("city", "København")
+                            .param("tags", String.valueOf(List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS))))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:/attractions"));
     }
 
     @BeforeEach
