@@ -51,7 +51,18 @@ class TouristControllerTest {
     }
 
     @Test
-    void getByName() {
+    void getByName() throws Exception{
+        String name = "Tivoli";
+        TouristAttraction attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS) );
+
+        when(touristService.findAttractionsByName(name)).thenReturn(attraction);
+
+        mockMvc.perform(get("/attractions/{name}", name))
+                .andExpect(status().isOk())
+                .andExpect(view().name("attraction"))
+                .andExpect(model().attributeExists("attraction"))
+                .andExpect(model().attribute("attraction", attraction));
+
     }
 
     @Test
