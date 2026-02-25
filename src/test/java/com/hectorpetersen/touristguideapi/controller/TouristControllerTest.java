@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -52,9 +54,9 @@ class TouristControllerTest {
     }
 
     @Test
-    void getByName() throws Exception{
+    void getByName() throws Exception {
         String name = "Tivoli";
-        TouristAttraction attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS) );
+        TouristAttraction attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
         when(touristService.findAttractionsByName(name)).thenReturn(attraction);
         mockMvc.perform(get("/attractions/{name}", name))
                 .andExpect(status().isOk())
@@ -69,30 +71,31 @@ class TouristControllerTest {
 
     @Test
     void updateAttraction() throws Exception {
-        TouristAttraction attraction = new TouristAttraction("Tivoli", "Forlystelsespark", "København", List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING));
+        TouristAttraction attraction = new TouristAttraction("Tivoli","Forlystelsespark","København",List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING));
 
-        when(touristService.updateAttraction(attraction)).thenReturn(attraction);
+        when(touristService.updateAttraction(any(TouristAttraction.class))).thenReturn(attraction);
 
-        mockMvc.perform(post("/attractions/update/Tivoli")
+        mockMvc.perform(post("/attractions/update")
                         .param("name", "Tivoli")
-                .param("description", "Forlystelsespark")
-                .param("city", "København")
-                .param("tags", String.valueOf(List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING))))
+                        .param("description", "Forlystelsespark")
+                        .param("city", "København")
+                        .param("tags", "UDENDØRS", "OPLEVELSE", "UNDERHOLDNING"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/attractions"));
+                .andExpect(redirectedUrl("/attractions/Tivoli"));
 
+        verify(touristService).updateAttraction(any(TouristAttraction.class));
     }
 
     @Test
     void deleteAttraction() throws Exception {
-            TouristAttraction attraction = new TouristAttraction("EK", "Ehvervesakademi", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
-            when(touristService.deleteAttraction("EK")).thenReturn(attraction);
-            mockMvc.perform(post("/attractions/delete/EK")
-                            .param("description", "Ehvervesakademi")
-                            .param("city", "København")
-                            .param("tags", String.valueOf(List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS))))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:/attractions"));
+        TouristAttraction attraction = new TouristAttraction("EK", "Ehvervesakademi", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
+        when(touristService.deleteAttraction("EK")).thenReturn(attraction);
+        mockMvc.perform(post("/attractions/delete/EK")
+                        .param("description", "Ehvervesakademi")
+                        .param("city", "København")
+                        .param("tags", String.valueOf(List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS))))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/attractions"));
     }
 
     @BeforeEach
