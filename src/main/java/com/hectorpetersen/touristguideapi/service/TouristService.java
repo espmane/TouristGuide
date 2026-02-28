@@ -6,7 +6,6 @@ import com.hectorpetersen.touristguideapi.repository.TouristRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-//.
 
 @Service
 public class TouristService {
@@ -21,10 +20,11 @@ public class TouristService {
     }
 
     public TouristAttraction findAttractionsByName(String name) {
-        return repository.findAttractionsByName(name);
+        return repository.getAttractionsByName(name);
     }
 
     public TouristAttraction createAttraction(TouristAttraction attraction) {
+        if (attraction.isInvalid()) throw new RuntimeException();
         return repository.createNewAttraction(attraction);
     }
 
@@ -33,6 +33,7 @@ public class TouristService {
     }
 
     public TouristAttraction updateAttraction(TouristAttraction attraction) {
+        if (attraction.isInvalid()) throw new RuntimeException();
         return repository.updateAttraction(attraction);
     }
 }

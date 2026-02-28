@@ -7,10 +7,10 @@ public class TouristAttraction {
     private String name;
     private String description;
     private int attractionId;
-    private String city;
+    private Cities city;
     private List<Tags> tags = new ArrayList<>();
 
-    public TouristAttraction(String name, String description, String city, List<Tags> tags) {
+    public TouristAttraction(String name, String description, Cities city, List<Tags> tags) {
         this.name = name;
         this.description = description;
         this.city = city;
@@ -44,11 +44,11 @@ public class TouristAttraction {
         this.attractionId = attractionId;
     }
 
-    public String getCity() {
+    public Cities getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(Cities city) {
         this.city = city;
     }
 
@@ -58,6 +58,13 @@ public class TouristAttraction {
 
     public void setTags(List<Tags> tags) {
         this.tags = tags;
+    }
+
+    public boolean isInvalid() {
+        return name == null || name.isBlank() ||
+                description == null || description.isBlank() ||
+                city == null ||
+                tags == null || tags.isEmpty();
     }
 
     @Override
