@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title th:text="${attraction.name}"></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link href="/Touristguide.css" th:href="@{/Touristguide.css}" rel="stylesheet">
 </head>
 <body>
 <div class="site-box" align="center">
@@ -16,7 +15,7 @@
         <tbody>
         <tr>
             <th>By</th>
-            <td th:text="*{city}"></td>
+            <td th:text="*{city.displayName}"></td>
         </tr>
         <tr>
             <th>Beskrivelse</th>
