@@ -4,8 +4,6 @@ import com.hectorpetersen.touristguideapi.model.Cities;
 import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import com.hectorpetersen.touristguideapi.service.TouristService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
