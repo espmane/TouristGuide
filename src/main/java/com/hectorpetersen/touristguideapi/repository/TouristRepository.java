@@ -1,10 +1,11 @@
 package com.hectorpetersen.touristguideapi.repository;
 
-import com.hectorpetersen.touristguideapi.model.TouristAttraction;
+import java.util.List;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 
 @Repository
 public class TouristRepository {
@@ -16,12 +17,12 @@ public class TouristRepository {
     }
 
     public List<TouristAttraction> getAllAttractions() {
-//        final String tagSQL = """
-//                SELECT a.Name, t.Name
-//                FROM Attractions a
-//                JOIN Attraction_tags at ON a.Attractions_id = at.Attractions_id
-//                JOIN Tags t ON at.Tags_ID = t.Tags_ID""";
-//        jdbcTemplate.query(tagSQL, rs -> rs.getString(0) + rs.getString(1));
+        // final String tagSQL = """
+        // SELECT a.Name, t.Name
+        // FROM Attractions a
+        // JOIN Attraction_tags at ON a.Attractions_id = at.Attractions_id
+        // JOIN Tags t ON at.Tags_ID = t.Tags_ID""";
+        // jdbcTemplate.query(tagSQL, rs -> rs.getString(0) + rs.getString(1));
 
         // Tags er ikke med
         final String attractionSQL = """
@@ -36,8 +37,7 @@ public class TouristRepository {
                 rs.getInt("ID"),
                 rs.getString("Name"),
                 rs.getString("Description"),
-                rs.getString("City")
-        )));
+                rs.getString("City"))));
     }
 
     public TouristAttraction findAttractionsByName(String name) {
