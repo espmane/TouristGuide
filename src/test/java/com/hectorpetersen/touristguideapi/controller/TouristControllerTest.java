@@ -36,9 +36,11 @@ class TouristControllerTest {
     @Test
     void getAll() throws Exception {
         List<TouristAttraction> attractions = new ArrayList<>();
-        attractions.add(new TouristAttraction("Tivoli", "Forlystelsespark", "København", List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING)));
+        attractions.add(new TouristAttraction("Tivoli", "Forlystelsespark", "København",
+                List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING)));
         attractions.add(new TouristAttraction("Mash", "Spisested", "København", List.of(Tags.DYRT, Tags.OPLEVELSE)));
-        attractions.add(new TouristAttraction("EK", "Ehvervesakademi", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS)));
+        attractions.add(new TouristAttraction("EK", "Ehvervesakademi", "København",
+                List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS)));
 
         when(touristService.getAllAttractions()).thenReturn(attractions);
         mockMvc.perform(get("/attractions"))
@@ -51,7 +53,8 @@ class TouristControllerTest {
     @Test
     void getByName() throws Exception {
         String name = "Tivoli";
-        var attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
+        var attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København",
+                List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
 
         when(touristService.findAttractionsByName(name)).thenReturn(attraction);
         mockMvc.perform(get("/attractions/{name}", name))
@@ -64,7 +67,8 @@ class TouristControllerTest {
     @Test
     void getAttractionTagsByName() throws Exception {
         String name = "Tivoli";
-        var attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
+        var attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København",
+                List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
 
         when(touristService.findAttractionsByName(name)).thenReturn(attraction);
         mockMvc.perform(get("/attractions/{name}/tags", name))
@@ -89,7 +93,8 @@ class TouristControllerTest {
     @Test
     void editAttraction() throws Exception {
         String name = "Tivoli";
-        var attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
+        var attraction = new TouristAttraction("Tivoli", "Udendørs forlystelsespark", "København",
+                List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
 
         when(touristService.findAttractionsByName(name)).thenReturn(attraction);
         mockMvc.perform(get("/attractions/{name}/edit", name))
@@ -105,14 +110,15 @@ class TouristControllerTest {
 
     @Test
     void saveAttraction() throws Exception {
-        var attraction = new TouristAttraction("Tivoli", "Forlystelsespark", "København", List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING));
+        var attraction = new TouristAttraction("Tivoli", "Forlystelsespark", "København",
+                List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING));
 
         when(touristService.createAttraction(any(TouristAttraction.class))).thenReturn(attraction);
         mockMvc.perform(post("/attractions/save")
-                        .param("name", "Tivoli")
-                        .param("description", "Forlystelsespark")
-                        .param("city", "København")
-                        .param("tags", Tags.UDENDØRS.name(), Tags.OPLEVELSE.name(), Tags.UNDERHOLDNING.name()))
+                .param("name", "Tivoli")
+                .param("description", "Forlystelsespark")
+                .param("city", "København")
+                .param("tags", Tags.UDENDØRS.name(), Tags.OPLEVELSE.name(), Tags.UNDERHOLDNING.name()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/attractions"));
 
@@ -128,14 +134,15 @@ class TouristControllerTest {
 
     @Test
     void updateAttraction() throws Exception {
-        var attraction = new TouristAttraction("Tivoli", "Forlystelsespark", "København", List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING));
+        var attraction = new TouristAttraction("Tivoli", "Forlystelsespark", "København",
+                List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING));
 
         when(touristService.updateAttraction(any(TouristAttraction.class))).thenReturn(attraction);
         mockMvc.perform(post("/attractions/update")
-                        .param("name", "Tivoli")
-                        .param("description", "Forlystelsespark")
-                        .param("city", "København")
-                        .param("tags", Tags.UDENDØRS.name(), Tags.OPLEVELSE.name(), Tags.UNDERHOLDNING.name()))
+                .param("name", "Tivoli")
+                .param("description", "Forlystelsespark")
+                .param("city", "København")
+                .param("tags", Tags.UDENDØRS.name(), Tags.OPLEVELSE.name(), Tags.UNDERHOLDNING.name()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/attractions/Tivoli"));
 
@@ -152,7 +159,8 @@ class TouristControllerTest {
     @Test
     void deleteAttraction() throws Exception {
         String name = "EK";
-        var attraction = new TouristAttraction("EK", "Ehvervesakademi", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
+        var attraction = new TouristAttraction("EK", "Ehvervesakademi", "København",
+                List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS));
 
         when(touristService.deleteAttraction(name)).thenReturn(attraction);
         mockMvc.perform(post("/attractions/delete/EK"))

@@ -1,0 +1,31 @@
+DROP schema Touristguide_db;
+CREATE SCHEMA IF NOT EXISTS Touristguide_db;
+
+USE Touristguide_db;
+
+CREATE TABLE IF NOT EXISTS City(
+City_ID INT AUTO_INCREMENT PRIMARY KEY,
+Name VARCHAR(30) NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS Tags(
+Tags_ID INT AUTO_INCREMENT PRIMARY KEY,
+Name VARCHAR (30)UNIQUE NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS Attractions (
+Attractions_id INT AUTO_INCREMENT PRIMARY KEY,
+Name VARCHAR(35) UNIQUE NOT NULL,
+Description TEXT NOT NULL,
+City_ID INT,
+FOREIGN KEY (City_ID) REFERENCES City(City_id)
+);
+
+CREATE TABLE IF NOT EXISTS Attraction_tags (
+Attractions_id INT,
+Tags_ID INT,
+FOREIGN KEY (Attractions_id) REFERENCES Attractions(Attractions_id),
+FOREIGN KEY (Tags_ID) REFERENCES Tags(Tags_ID)
+);
