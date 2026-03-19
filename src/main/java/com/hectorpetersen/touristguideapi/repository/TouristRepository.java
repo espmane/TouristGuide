@@ -18,14 +18,17 @@ public class TouristRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<TouristAttraction> getAllAttractions() {
-//        final String tagSQL = """
-//                SELECT a.Name, t.Name
-//                FROM Attractions a
-//                JOIN Attraction_tags at ON a.Attractions_id = at.Attractions_id
-//                JOIN Tags t ON at.Tags_ID = t.Tags_ID""";
-//        jdbcTemplate.query(tagSQL, rs -> rs.getString(0) + rs.getString(1));
+    private List<Tags> getTagsForAttraction(int attractionId) {
+        return jdbcTemplate.query("""
+                        SELECT t.Name
+                        FROM Tags t
+                        JOIN Attraction_tags at ON t.Tags_ID = at.Tags_ID
+                        WHERE at.Attractions_id = ?
+                        """,
+                (rs, rowNum) -> Tags.valueOf(rs.getString("Name").toUpperCase()), attractionId);
+    }
 
+    public List<TouristAttraction> getAllAttractions() {
         // Tags er ikke med
         final String attractionSQL = """
                 SELECT a.Attractions_id AS ID,
@@ -36,11 +39,11 @@ public class TouristRepository {
                 JOIN City c ON a.City_ID = c.City_ID;""";
 
         return jdbcTemplate.query(attractionSQL, (rs, rowNum) -> (new TouristAttraction(
-                //rs.getInt("ID"),
+                rs.getInt("ID"),
                 rs.getString("Name"),
                 rs.getString("Description"),
                 rs.getString("City"),
-                List.of(Tags.HISTORIE)
+                getTagsForAttraction(rs.getInt("ID"))
         )));
     }
 

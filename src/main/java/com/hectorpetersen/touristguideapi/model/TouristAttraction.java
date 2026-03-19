@@ -14,7 +14,14 @@ public class TouristAttraction {
         this.name = name;
         this.description = description;
         this.city = city;
-        this.tags = tags;
+        this.tags = new ArrayList<>();
+    }
+    public TouristAttraction(int attractionId, String name, String description, String city, List<Tags> tags) {
+        this.attractionId = attractionId;
+        this.name = name;
+        this.description = description;
+        this.city = city;
+        this.tags = new ArrayList<>();
     }
 
     public TouristAttraction() {
