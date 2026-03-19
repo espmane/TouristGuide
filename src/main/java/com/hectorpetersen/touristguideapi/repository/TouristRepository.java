@@ -35,8 +35,8 @@ public class TouristRepository {
                        a.Name,
                        a.Description,
                        c.Name AS City
-                FROM Touristguide_db.Attractions a
-                    JOIN Touristguide_db.City c ON a.City_ID = c.City_ID;
+                FROM Attractions a
+                    JOIN City c ON a.City_ID = c.City_ID;
                 """;
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> (new TouristAttraction(
@@ -54,8 +54,8 @@ public class TouristRepository {
                        a.Name           AS Name,
                        a.Description    AS Description,
                        c.Name           AS CityName
-                FROM Touristguide_db.Attractions a
-                         JOIN Touristguide_db.City c ON a.City_ID = c.City_ID
+                FROM Attractions a
+                         JOIN City c ON a.City_ID = c.City_ID
                 WHERE a.Name = ?
                 """;
 
