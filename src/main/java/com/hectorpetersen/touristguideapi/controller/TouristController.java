@@ -4,14 +4,11 @@ import com.hectorpetersen.touristguideapi.model.Cities;
 import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import com.hectorpetersen.touristguideapi.service.TouristService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @Controller
 @RequestMapping("/attractions")
@@ -25,21 +22,22 @@ public class TouristController {
 
     @GetMapping()
     public String getAll(Model model) {
-        List<TouristAttraction> attractions = service.getAllAttractions();
+        final List<TouristAttraction> attractions = service.getAllAttractions();
         model.addAttribute("attractions", attractions);
         return "attractions-list";
 
     }
+
     @GetMapping("/{name}")
     public String getByName(@PathVariable String name, Model model) {
-        TouristAttraction attractions = service.findAttractionsByName(name);
+        final TouristAttraction attractions = service.findAttractionsByName(name);
         model.addAttribute("attraction", attractions);
         return "attraction";
     }
 
     @GetMapping("/{name}/tags")
     public String getAttractionTagsByName(@PathVariable String name, Model model) {
-        TouristAttraction foundAttraction = service.findAttractionsByName(name);
+        final TouristAttraction foundAttraction = service.findAttractionsByName(name);
         model.addAttribute("attraction", foundAttraction);
         return "attraction-tags";
     }
@@ -54,7 +52,7 @@ public class TouristController {
 
     @GetMapping("/{name}/edit")
     public String editAttraction(@PathVariable String name, Model model) {
-        TouristAttraction foundAttraction = service.findAttractionsByName(name);
+        final TouristAttraction foundAttraction = service.findAttractionsByName(name);
         model.addAttribute("attraction", foundAttraction);
         model.addAttribute("tags", Tags.values());
         model.addAttribute("cities", Cities.values());
@@ -63,7 +61,7 @@ public class TouristController {
 
     @PostMapping("/save")
     public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
-        TouristAttraction newAttraction = service.createAttraction(attraction);
+        final TouristAttraction newAttraction = service.createAttraction(attraction);
         if (newAttraction == null) {
             return null;
         }
@@ -72,7 +70,7 @@ public class TouristController {
 
     @PostMapping("/update")
     public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
-        TouristAttraction updatedAttraction = service.updateAttraction(attraction);
+        final TouristAttraction updatedAttraction = service.updateAttraction(attraction);
         return "redirect:/attractions/" + updatedAttraction.getName();
     }
 
