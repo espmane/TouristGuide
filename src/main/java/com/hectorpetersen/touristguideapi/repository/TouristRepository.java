@@ -1,8 +1,8 @@
 package com.hectorpetersen.touristguideapi.repository;
 
-import com.hectorpetersen.touristguideapi.model.Cities;
 import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -12,38 +12,36 @@ import java.util.List;
 public class TouristRepository {
 
     private final List<TouristAttraction> attractions = new ArrayList<>();
-    private final List<String> cities;
-    private int nextId = 1;
+    private final JdbcTemplate jdbcTemplate;
 
-    public TouristRepository() {
-        populate();
-        this.cities = getCities();
-        for (TouristAttraction a : attractions) {
-            System.out.println(a);
-        }
-    }
-
-    public void save(TouristAttraction attraction) {
-        attraction.setAttractionId(nextId++);
-        attractions.add(attraction);
-    }
-
-    public void populate() {
-        save(new TouristAttraction("EK", "Ehvervesakademi", "København", List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS)));
-        save(new TouristAttraction("Mash", "Spisested", "København", List.of(Tags.DYRT, Tags.OPLEVELSE)));
-        save(new TouristAttraction("Tivoli", "Forlystelsespark", "København", List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING)));
-    }
-
-    public List<String> getCities() {
-        List<String> listOfCities = new ArrayList<>();
-        for (Cities city : Cities.values()) {
-            listOfCities.add(city.getDisplayName());
-        }
-        return listOfCities;
+    public TouristRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<TouristAttraction> getAllAttractions() {
-        return attractions;
+//        final String tagSQL = """
+//                SELECT a.Name, t.Name
+//                FROM Attractions a
+//                JOIN Attraction_tags at ON a.Attractions_id = at.Attractions_id
+//                JOIN Tags t ON at.Tags_ID = t.Tags_ID""";
+//        jdbcTemplate.query(tagSQL, rs -> rs.getString(0) + rs.getString(1));
+
+        // Tags er ikke med
+        final String attractionSQL = """
+                SELECT a.Attractions_id AS ID,
+                       a.Name AS Name,
+                       a.Description AS Description,
+                       c.Name AS City
+                FROM Attractions a
+                JOIN City c ON a.City_ID = c.City_ID;""";
+
+        return jdbcTemplate.query(attractionSQL, (rs, rowNum) -> (new TouristAttraction(
+                //rs.getInt("ID"),
+                rs.getString("Name"),
+                rs.getString("Description"),
+                rs.getString("City"),
+                List.of(Tags.HISTORIE)
+        )));
     }
 
     public TouristAttraction findAttractionsByName(String name) {
@@ -59,7 +57,7 @@ public class TouristRepository {
         if (findAttractionsByName(attraction.getName()) != null) {
             return null;
         }
-        attraction.setAttractionId(nextId++);
+        attraction.setAttractionId(1);
         attractions.add(attraction);
         return attraction;
     }
