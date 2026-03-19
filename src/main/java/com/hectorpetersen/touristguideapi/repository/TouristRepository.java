@@ -19,26 +19,27 @@ public class TouristRepository {
     }
 
     private List<Tags> getTagsForAttraction(int attractionId) {
-        return jdbcTemplate.query("""
-                        SELECT t.Name
+        final String sql = """
+                SELECT t.Name
                         FROM Tags t
                         JOIN Attraction_tags at ON t.Tags_ID = at.Tags_ID
                         WHERE at.Attractions_id = ?
-                        """,
+                """;
+        return jdbcTemplate.query(sql,
                 (rs, rowNum) -> Tags.valueOf(rs.getString("Name").toUpperCase()), attractionId);
     }
 
     public List<TouristAttraction> getAllAttractions() {
-        // Tags er ikke med
-        final String attractionSQL = """
+        final String sql = """
                 SELECT a.Attractions_id AS ID,
-                       a.Name AS Name,
-                       a.Description AS Description,
+                       a.Name,
+                       a.Description,
                        c.Name AS City
-                FROM Attractions a
-                JOIN City c ON a.City_ID = c.City_ID;""";
+                FROM Touristguide_db.Attractions a
+                    JOIN Touristguide_db.City c ON a.City_ID = c.City_ID;
+                """;
 
-        return jdbcTemplate.query(attractionSQL, (rs, rowNum) -> (new TouristAttraction(
+        return jdbcTemplate.query(sql, (rs, rowNum) -> (new TouristAttraction(
                 rs.getInt("ID"),
                 rs.getString("Name"),
                 rs.getString("Description"),
@@ -48,12 +49,23 @@ public class TouristRepository {
     }
 
     public TouristAttraction findAttractionsByName(String name) {
-        for (TouristAttraction attraction : attractions) {
-            if (name.equalsIgnoreCase(attraction.getName())) {
-                return attraction;
-            }
-        }
-        return null;
+        final String sql = """
+                SELECT a.Attractions_id AS ID,
+                       a.Name           AS Name,
+                       a.Description    AS Description,
+                       c.Name           AS CityName
+                FROM Touristguide_db.Attractions a
+                         JOIN Touristguide_db.City c ON a.City_ID = c.City_ID
+                WHERE a.Name = ?
+                """;
+
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new TouristAttraction(
+                rs.getInt("ID"),
+                rs.getString("Name"),
+                rs.getString("Description"),
+                rs.getString("CityName"),
+                getTagsForAttraction(rs.getInt("ID"))), name
+        );
     }
 
     public TouristAttraction createNewAttraction(TouristAttraction attraction) {

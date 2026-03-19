@@ -16,16 +16,16 @@ Name VARCHAR (30)UNIQUE NOT NULL
 
 
 CREATE TABLE IF NOT EXISTS Attractions (
-Attractions_id INT AUTO_INCREMENT PRIMARY KEY,
+Attractions_ID INT AUTO_INCREMENT PRIMARY KEY,
 Name VARCHAR(35) UNIQUE NOT NULL,
 Description TEXT NOT NULL,
 City_ID INT,
-FOREIGN KEY (City_ID) REFERENCES City(City_id)
+FOREIGN KEY (City_ID) REFERENCES City(City_ID)
 );
 
 CREATE TABLE IF NOT EXISTS Attraction_tags (
-Attractions_id INT,
+Attractions_ID INT,
 Tags_ID INT,
-FOREIGN KEY (Attractions_id) REFERENCES Attractions(Attractions_id),
+FOREIGN KEY (Attractions_ID) REFERENCES Attractions(Attractions_ID),
 FOREIGN KEY (Tags_ID) REFERENCES Tags(Tags_ID)
 );
