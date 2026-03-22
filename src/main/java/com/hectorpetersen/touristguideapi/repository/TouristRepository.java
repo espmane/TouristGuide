@@ -68,13 +68,57 @@ public class TouristRepository {
         );
     }
 
-    public TouristAttraction createNewAttraction(TouristAttraction attraction) {
+    /*public TouristAttraction createNewAttraction(TouristAttraction attraction) {
         if (findAttractionsByName(attraction.getName()) != null) {
             return null;
         }
         attraction.setAttractionId(1);
         attractions.add(attraction);
         return attraction;
+    }
+    */
+
+    public TouristAttraction createNewAttraction(TouristAttraction attraction) {
+
+        try {
+            TouristAttraction existing = findAttractionsByName(attraction.getName());
+            if (existing != null) {
+                return null;
+            }
+        } catch (Exception ignored) {
+
+        }
+
+        final String insertSql = """
+            INSERT INTO Attractions (Name, Description, City_ID)
+            VALUES (?, ?, (SELECT City_ID FROM City WHERE Name = ?))
+            """;
+
+        jdbcTemplate.update(insertSql,
+                attraction.getName(),
+                attraction.getDescription(),
+                attraction.getCity()
+        );
+
+        final String idSql = "SELECT Attractions_id FROM Attractions WHERE Name = ?";
+        Integer attractionId = jdbcTemplate.queryForObject(idSql, Integer.class, attraction.getName());
+
+        final String tagSql = """
+            INSERT INTO Attraction_tags (Attractions_id, Tags_ID)
+            VALUES (?, (SELECT Tags_ID FROM Tags WHERE Name = ?))
+            """;
+
+        for (Tags tag : attraction.getTags()) {
+            jdbcTemplate.update(tagSql, attractionId, tag.name());
+        }
+
+        return new TouristAttraction(
+                attractionId,
+                attraction.getName(),
+                attraction.getDescription(),
+                attraction.getCity(),
+                attraction.getTags()
+        );
     }
 
     public TouristAttraction deleteAttraction(String name) {
