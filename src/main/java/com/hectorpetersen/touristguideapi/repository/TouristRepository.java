@@ -64,7 +64,19 @@ public class TouristRepository {
 
     public TouristAttraction deleteAttraction(String name) {
         TouristAttraction deleteAttraction = findAttractionsByName(name);
-        attractions.remove(deleteAttraction);
+
+        if (deleteAttraction == null){
+            return null;
+        }
+
+        jdbcTemplate.update(
+                "DELETE FROM Attraction_tags WHERE attraction_id = ?"
+        );
+
+        jdbcTemplate.update(
+                "DELETE FROM Attractions WHERE attraction_id = ?"
+        );
+
         return deleteAttraction;
     }
 
