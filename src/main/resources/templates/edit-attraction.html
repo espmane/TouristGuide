@@ -12,6 +12,7 @@
     <br>
 
     <form th:action="@{/attractions/update}" method="post">
+        <input type="hidden" name="attractionId" th:value="${attraction.attractionId}" />
         <input type="hidden" th:field="*{name}"/>
 
         <table class="table table-bordered" style="width: 600px;">

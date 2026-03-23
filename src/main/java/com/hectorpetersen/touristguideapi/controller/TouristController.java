@@ -62,18 +62,16 @@ public class TouristController {
 
     @PostMapping("/save")
     public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
-        final TouristAttraction newAttraction = service.createAttraction(attraction);
-        if (newAttraction == null) {
-            return null;
-        }
+        service.createAttraction(attraction);
         return "redirect:/attractions";
     }
 
     @PostMapping("/update")
     public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
         final TouristAttraction updatedAttraction = service.updateAttraction(attraction);
-        if (updatedAttraction == null) {
-            // nothing updated or attraction not found — go back to list
+        // tjekker om navnet har andet end a-z eller 0-9
+        var name = updatedAttraction.getName();
+        if (!name.matches("[A-Za-z0-9]+")) {
             return "redirect:/attractions";
         }
         return "redirect:/attractions/" + updatedAttraction.getName();

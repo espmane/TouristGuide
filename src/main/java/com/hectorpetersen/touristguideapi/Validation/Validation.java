@@ -1,8 +1,11 @@
 package com.hectorpetersen.touristguideapi.Validation;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Validation {
 
-    public static void ValidateName(String name){
+    public void validateName(String name) {
 
         if (name == null){
             throw new IllegalArgumentException("Name can not be empty.");
@@ -12,8 +15,4 @@ public class Validation {
             throw new IllegalArgumentException("Name contains invalid characters");
         }
     }
-
-
-
-
 }

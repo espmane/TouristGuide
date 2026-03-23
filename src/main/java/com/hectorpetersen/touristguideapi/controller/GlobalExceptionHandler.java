@@ -27,4 +27,13 @@ public class GlobalExceptionHandler {
         model.addAttribute("message", "A database error occurred.");
         return "error/500";
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleIllegalArgument(IllegalArgumentException ex, Model model) {
+        model.addAttribute("status", HttpStatus.BAD_REQUEST.value());
+        model.addAttribute("error", HttpStatus.BAD_REQUEST.getReasonPhrase());
+        model.addAttribute("message", ex.getMessage());
+        return "error/400";
+    }
 }
