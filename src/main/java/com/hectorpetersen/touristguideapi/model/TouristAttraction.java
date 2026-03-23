@@ -10,6 +10,7 @@ public class TouristAttraction {
     private String city;
     private List<Tags> tags = new ArrayList<>();
 
+    // konstruktør til tests?
     public TouristAttraction(String name, String description, String city, List<Tags> tags) {
         this.name = name;
         this.description = description;
@@ -17,11 +18,12 @@ public class TouristAttraction {
         this.tags = tags;
     }
 
-    public TouristAttraction(int attractionId, String name, String description, String city) {
+    public TouristAttraction(int attractionId, String name, String description, String city, List<Tags> tags) {
         this.attractionId = attractionId;
         this.name = name;
         this.description = description;
         this.city = city;
+        this.tags = tags;
     }
 
     public TouristAttraction() {

@@ -38,7 +38,10 @@ class TouristControllerTest {
         List<TouristAttraction> attractions = new ArrayList<>();
         attractions.add(new TouristAttraction("Tivoli", "Forlystelsespark", "København",
                 List.of(Tags.UDENDØRS, Tags.OPLEVELSE, Tags.UNDERHOLDNING)));
-        attractions.add(new TouristAttraction("Mash", "Spisested", "København", List.of(Tags.DYRT, Tags.OPLEVELSE)));
+
+        attractions.add(new TouristAttraction("Mash", "Spisested", "København",
+                List.of(Tags.DYRT, Tags.OPLEVELSE)));
+
         attractions.add(new TouristAttraction("EK", "Ehvervesakademi", "København",
                 List.of(Tags.BØRNEVENLIG, Tags.SKOLE, Tags.GRATIS)));
 
@@ -115,10 +118,10 @@ class TouristControllerTest {
 
         when(touristService.createAttraction(any(TouristAttraction.class))).thenReturn(attraction);
         mockMvc.perform(post("/attractions/save")
-                .param("name", "Tivoli")
-                .param("description", "Forlystelsespark")
-                .param("city", "København")
-                .param("tags", Tags.UDENDØRS.name(), Tags.OPLEVELSE.name(), Tags.UNDERHOLDNING.name()))
+                        .param("name", "Tivoli")
+                        .param("description", "Forlystelsespark")
+                        .param("city", "København")
+                        .param("tags", Tags.UDENDØRS.name(), Tags.OPLEVELSE.name(), Tags.UNDERHOLDNING.name()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/attractions"));
 
@@ -139,10 +142,10 @@ class TouristControllerTest {
 
         when(touristService.updateAttraction(any(TouristAttraction.class))).thenReturn(attraction);
         mockMvc.perform(post("/attractions/update")
-                .param("name", "Tivoli")
-                .param("description", "Forlystelsespark")
-                .param("city", "København")
-                .param("tags", Tags.UDENDØRS.name(), Tags.OPLEVELSE.name(), Tags.UNDERHOLDNING.name()))
+                        .param("name", "Tivoli")
+                        .param("description", "Forlystelsespark")
+                        .param("city", "København")
+                        .param("tags", Tags.UDENDØRS.name(), Tags.OPLEVELSE.name(), Tags.UNDERHOLDNING.name()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/attractions/Tivoli"));
 
