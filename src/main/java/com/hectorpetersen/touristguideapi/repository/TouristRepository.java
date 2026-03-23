@@ -157,12 +157,12 @@ public class TouristRepository {
         }
 
         //sletter tags for attraktionen via name
-        jdbcTemplate.update("DELETE FROM Attraction_tags WHERE Attractions_id = ?", attractions);
+        jdbcTemplate.update("DELETE FROM Attraction_tags WHERE Attractions_id = ?");
         //nye tags
-        if (touristAttraction.getTags() != null && attractions.getTags().isEmpty()) {
-            String insertTagSql = "INSERT INTO Attraction_tags (Attractions_id, Tags_ID) VALUES ((SELECT Attractions_id FROM Tags WHERE Name = ?")
+        if (touristAttraction.getTags() != null) {
+            String insertTagSql = ("INSERT INTO Attraction_tags (Attractions_id, Tags_ID) VALUES ((SELECT Attractions_id FROM Tags WHERE Name = ?");
             for (Tags tag : touristAttraction.getTags()) {
-                jdbcTemplate.update(insertTagSql,attractions, tag.name());
+                jdbcTemplate.update(insertTagSql,touristAttraction.getAttractionId(), tag.name());
             }
         }
         return touristAttraction;
