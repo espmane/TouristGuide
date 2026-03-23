@@ -90,8 +90,9 @@ public class TouristRepository {
         }
 
         final String insertSql = """
-            INSERT INTO Attractions (Name, Description, City_ID)
-            VALUES (?, ?, (SELECT City_ID FROM City WHERE Name = ?))
+            
+                INSERT INTO Attractions (Name, Description, City_ID)
+                            VALUES (?, ?, (SELECT City_ID FROM City WHERE Name = ?))
             """;
 
         jdbcTemplate.update(insertSql,
@@ -103,10 +104,13 @@ public class TouristRepository {
         final String idSql = "SELECT Attractions_id FROM Attractions WHERE Name = ?";
         Integer attractionId = jdbcTemplate.queryForObject(idSql, Integer.class, attraction.getName());
 
-        final String tagSql = """
-            INSERT INTO Attraction_tags (Attractions_id, Tags_ID)
-            VALUES (?, (SELECT Tags_ID FROM Tags WHERE Name = ?))
-            """;
+        final String tagSql =
+                        """
+            INSERT INTO Attractio
+                                    Attractions_id, 
+                                VALUES (?, (SELECT
+                                    FROM Tags WHERE Na
+                                """;
 
         for (Tags tag : attraction.getTags()) {
             jdbcTemplate.update(tagSql, attractionId, tag.name());
@@ -128,12 +132,30 @@ public class TouristRepository {
     }
 
     public TouristAttraction updateAttraction(TouristAttraction touristAttraction) {
-        TouristAttraction attraction = findAttractionsByName(touristAttraction.getName());
-        if (attraction != null) {
-            attraction.setDescription(touristAttraction.getDescription());
-            attraction.setTags(touristAttraction.getTags());
-            attraction.setCity(touristAttraction.getCity());
+        //Opdater attraktionens "descr" og "city" baseret på navnet
+        String updateSql = "UPDATE Attractions SET Description = ?, City_ID = (SELECT City_ID FROM City WHERE Name = ?) WHERE Name = ?";
+        int rows = jdbcTemplate.update(updateSql,
+                touristAttraction.getDescription(),
+                touristAttraction.getCity(),
+                touristAttraction.getName()
+        );
+
+        //hvis ingen rækker bliver opdateret stopper den her1
+        if (rows == 0) {
+            return 0;
         }
-        return attraction;
+
+        //sletter tags for attraktionen via name
+        String deleteTagsSql = "DELETE FROM Attraction_tags WHERE Attractions_id = (SELECT Attractions_id FROM Attractions WHERE Name = ?)";
+        jdbcTemplate.update(deleteTagsSql, touristAttraction.getName());
+
+        //nye tags
+        String insertTagSql = "INSERT INTO Attraction_tags (Attractions_id, Tags_ID) VALUES ((SELECT Attractions_id FROM Attractions WHERE Name = ?), (SELECT Tags_ID FROM Tags WHERE Name = ?))";
+        if (touristAttraction.getTags() != null) {
+            for (Tags tag : touristAttraction.getTags()) {
+                jdbcTemplate.update(insertTagSql, touristAttraction.getName(), tag.name());
+            }
+        }
+        return
     }
-}
+    }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @Controller
@@ -71,6 +72,10 @@ public class TouristController {
     @PostMapping("/update")
     public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
         final TouristAttraction updatedAttraction = service.updateAttraction(attraction);
+        if (updatedAttraction == null) {
+            // nothing updated or attraction not found — go back to list
+            return "redirect:/attractions";
+        }
         return "redirect:/attractions/" + updatedAttraction.getName();
     }
 
