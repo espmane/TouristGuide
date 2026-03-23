@@ -72,7 +72,6 @@ public class TouristRepository {
 
 
     public TouristAttraction createNewAttraction(TouristAttraction attraction) {
-
         try {
             TouristAttraction existing = findAttractionsByName(attraction.getName());
             if (existing != null) {
