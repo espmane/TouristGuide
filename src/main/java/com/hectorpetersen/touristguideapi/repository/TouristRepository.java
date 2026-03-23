@@ -1,5 +1,6 @@
 package com.hectorpetersen.touristguideapi.repository;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -132,30 +133,26 @@ public class TouristRepository {
     }
 
     public TouristAttraction updateAttraction(TouristAttraction touristAttraction) {
-        //Opdater attraktionens "descr" og "city" baseret på navnet
         String updateSql = "UPDATE Attractions SET Description = ?, City_ID = (SELECT City_ID FROM City WHERE Name = ?) WHERE Name = ?";
         int rows = jdbcTemplate.update(updateSql,
                 touristAttraction.getDescription(),
                 touristAttraction.getCity(),
                 touristAttraction.getName()
         );
-
-        //hvis ingen rækker bliver opdateret stopper den her1
+        //hvis ingen rækker bliver opdateret stopper den
         if (rows == 0) {
-            return 0;
+            return null;
         }
 
         //sletter tags for attraktionen via name
-        String deleteTagsSql = "DELETE FROM Attraction_tags WHERE Attractions_id = (SELECT Attractions_id FROM Attractions WHERE Name = ?)";
-        jdbcTemplate.update(deleteTagsSql, touristAttraction.getName());
-
+        jdbcTemplate.update("DELETE FROM Attraction_tags WHERE Attractions_id = ?", attractions);
         //nye tags
-        String insertTagSql = "INSERT INTO Attraction_tags (Attractions_id, Tags_ID) VALUES ((SELECT Attractions_id FROM Attractions WHERE Name = ?), (SELECT Tags_ID FROM Tags WHERE Name = ?))";
-        if (touristAttraction.getTags() != null) {
+        if (touristAttraction.getTags() != null && attractions.getTags().isEmpty()) {
+            String insertTagSql = "INSERT INTO Attraction_tags (Attractions_id, Tags_ID) VALUES ((SELECT Attractions_id FROM Tags WHERE Name = ?")
             for (Tags tag : touristAttraction.getTags()) {
-                jdbcTemplate.update(insertTagSql, touristAttraction.getName(), tag.name());
+                jdbcTemplate.update(insertTagSql,attractions, tag.name());
             }
         }
-        return
+        return touristAttraction;
     }
     }
