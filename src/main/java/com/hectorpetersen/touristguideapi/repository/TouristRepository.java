@@ -154,7 +154,7 @@ public class TouristRepository {
 
         //hvis ingen rækker bliver opdateret stopper den her1
         if (rows == 0) {
-            return 0;
+            return null;
         }
 
         //sletter tags for attraktionen via name
@@ -168,6 +168,6 @@ public class TouristRepository {
                 jdbcTemplate.update(insertTagSql, touristAttraction.getName(), tag.name());
             }
         }
-        return
+        return touristAttraction;
     }
     }
