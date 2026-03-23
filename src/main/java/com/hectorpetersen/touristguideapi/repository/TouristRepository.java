@@ -93,16 +93,13 @@ public class TouristRepository {
                 attraction.getCity()
         );
 
-        final String idSql = "SELECT Attractions_id FROM Attractions WHERE Name = ?";
+        final String idSql = "SELECT Attractions_ID FROM Attractions WHERE Name = ?";
         Integer attractionId = jdbcTemplate.queryForObject(idSql, Integer.class, attraction.getName());
 
-        final String tagSql =
-                        """
-            INSERT INTO Attractio
-                                    Attractions_id, 
-                                VALUES (?, (SELECT
-                                    FROM Tags WHERE Na
-                                """;
+        final String tagSql = """
+    INSERT INTO Attraction_Tags (Attractions_ID, Tags_ID)
+    VALUES (?, (SELECT Tags_ID FROM Tags WHERE Name = ?))
+""";
 
         for (Tags tag : attraction.getTags()) {
             jdbcTemplate.update(tagSql, attractionId, tag.name());
