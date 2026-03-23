@@ -69,15 +69,6 @@ public class TouristRepository {
         );
     }
 
-    /*public TouristAttraction createNewAttraction(TouristAttraction attraction) {
-        if (findAttractionsByName(attraction.getName()) != null) {
-            return null;
-        }
-        attraction.setAttractionId(1);
-        attractions.add(attraction);
-        return attraction;
-    }
-    */
 
     public TouristAttraction createNewAttraction(TouristAttraction attraction) {
 
@@ -134,11 +125,11 @@ public class TouristRepository {
         }
 
         jdbcTemplate.update(
-                "DELETE FROM Attraction_tags WHERE attraction_id = ?"
+                "DELETE FROM Attraction_tags WHERE Attractions_id = ?", deleteAttraction.getAttractionId()
         );
 
         jdbcTemplate.update(
-                "DELETE FROM Attractions WHERE attraction_id = ?"
+                "DELETE FROM Attractions WHERE Attractions_id = ?", deleteAttraction.getAttractionId()
         );
 
         return deleteAttraction;
