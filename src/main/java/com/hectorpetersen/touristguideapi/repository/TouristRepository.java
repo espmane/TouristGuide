@@ -70,6 +70,7 @@ public class TouristRepository {
     }
 
 
+
     public TouristAttraction createNewAttraction(TouristAttraction attraction) {
 
         try {
@@ -148,10 +149,10 @@ public class TouristRepository {
         }
 
         //sletter tags for attraktionen via name
-        jdbcTemplate.update("DELETE FROM Attraction_tags WHERE Attractions_id = ?");
+        jdbcTemplate.update("DELETE FROM Attraction_tags WHERE Attractions_id = ?",touristAttraction.getAttractionId());
         //nye tags
         if (touristAttraction.getTags() != null) {
-            String insertTagSql = ("INSERT INTO Attraction_tags (Attractions_id, Tags_ID) VALUES ((SELECT Attractions_id FROM Tags WHERE Name = ?");
+            String insertTagSql = ("INSERT INTO Attraction_tags (Attractions_id, Tags_ID) VALUES ((SELECT Tags_ID FROM Tags WHERE Name = ?");
             for (Tags tag : touristAttraction.getTags()) {
                 jdbcTemplate.update(insertTagSql,touristAttraction.getAttractionId(), tag.name());
             }
