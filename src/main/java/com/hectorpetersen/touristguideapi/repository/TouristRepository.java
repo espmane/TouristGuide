@@ -1,36 +1,37 @@
 package com.hectorpetersen.touristguideapi.repository;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.hectorpetersen.touristguideapi.exception.AttractionNotFoundException;
+import com.hectorpetersen.touristguideapi.exception.DatabaseOperationException;
 import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TouristRepository {
 
-    private final List<TouristAttraction> attractions = new ArrayList<>();
     private final JdbcTemplate jdbcTemplate;
 
     public TouristRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private List<Tags> getTagsForAttraction(int attractionId) {
+    private List<Tags> getTagsForAttraction(int attractionId) throws DatabaseOperationException {
         final String sql = """
                 SELECT t.Name
                         FROM Tags t
                         JOIN Attraction_tags at ON t.Tags_ID = at.Tags_ID
                         WHERE at.Attractions_id = ?
                 """;
-        return jdbcTemplate.query(sql,
-                (rs, rowNum) -> Tags.valueOf(rs.getString("Name").toUpperCase()), attractionId);
+        return Optional.of(jdbcTemplate.query(sql,
+                        (rs, rowNum) -> Tags.valueOf(rs.getString("Name").toUpperCase()), attractionId))
+                .orElseThrow(() -> new DatabaseOperationException("Could not find any tags for this attraction!"));
     }
 
-    public List<TouristAttraction> getAllAttractions() {
+    public List<TouristAttraction> getAllAttractions() throws AttractionNotFoundException {
         final String sql = """
                 SELECT a.Attractions_id AS ID,
                        a.Name,
@@ -40,13 +41,13 @@ public class TouristRepository {
                     JOIN City c ON a.City_ID = c.City_ID;
                 """;
 
-        return jdbcTemplate.query(sql, (rs, rowNum) -> (new TouristAttraction(
-                rs.getInt("ID"),
-                rs.getString("Name"),
-                rs.getString("Description"),
-                rs.getString("City"),
-                getTagsForAttraction(rs.getInt("ID"))
-        )));
+        return Optional.of(jdbcTemplate.query(sql, (rs, rowNum) -> (new TouristAttraction(
+                        rs.getInt("ID"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getString("City"),
+                        getTagsForAttraction(rs.getInt("ID"))))))
+                .orElseThrow(() -> new AttractionNotFoundException("Could not find any attractions!"));
     }
 
     public TouristAttraction findAttractionsByName(String name) {
@@ -60,15 +61,14 @@ public class TouristRepository {
                 WHERE a.Name = ?
                 """;
 
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new TouristAttraction(
+        return Optional.of(jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new TouristAttraction(
                 rs.getInt("ID"),
                 rs.getString("Name"),
                 rs.getString("Description"),
                 rs.getString("CityName"),
-                getTagsForAttraction(rs.getInt("ID"))), name
-        );
+                getTagsForAttraction(rs.getInt("ID"))), name))
+                .orElseThrow(() -> new AttractionNotFoundException("Could not find attraction by name: " + name));
     }
-
 
 
     public TouristAttraction createNewAttraction(TouristAttraction attraction) {
@@ -82,10 +82,10 @@ public class TouristRepository {
         }
 
         final String insertSql = """
-            
-                INSERT INTO Attractions (Name, Description, City_ID)
-                            VALUES (?, ?, (SELECT City_ID FROM City WHERE Name = ?))
-            """;
+                
+                    INSERT INTO Attractions (Name, Description, City_ID)
+                                VALUES (?, ?, (SELECT City_ID FROM City WHERE Name = ?))
+                """;
 
         jdbcTemplate.update(insertSql,
                 attraction.getName(),
@@ -97,9 +97,9 @@ public class TouristRepository {
         Integer attractionId = jdbcTemplate.queryForObject(idSql, Integer.class, attraction.getName());
 
         final String tagSql = """
-    INSERT INTO Attraction_Tags (Attractions_ID, Tags_ID)
-    VALUES (?, (SELECT Tags_ID FROM Tags WHERE Name = ?))
-""";
+                    INSERT INTO Attraction_Tags (Attractions_ID, Tags_ID)
+                    VALUES (?, (SELECT Tags_ID FROM Tags WHERE Name = ?))
+                """;
 
         for (Tags tag : attraction.getTags()) {
             jdbcTemplate.update(tagSql, attractionId, tag.name());
@@ -117,7 +117,7 @@ public class TouristRepository {
     public TouristAttraction deleteAttraction(String name) {
         TouristAttraction deleteAttraction = findAttractionsByName(name);
 
-        if (deleteAttraction == null){
+        if (deleteAttraction == null) {
             return null;
         }
 
@@ -133,18 +133,18 @@ public class TouristRepository {
     }
 
     public TouristAttraction updateAttraction(TouristAttraction touristAttraction) {
-        TouristAttraction existingAttraction = findAttractionsByName(touristAttraction.getName());
+        var existingAttraction = findAttractionsByName(touristAttraction.getName());
 
         if (existingAttraction == null) {
             return null;
         }
 
         String updateSql = """
-        UPDATE Attractions
-        SET Description = ?, 
-            City_ID = (SELECT City_ID FROM City WHERE Name = ?)
-        WHERE Name = ?
-        """;
+                UPDATE Attractions
+                SET Description = ?,
+                    City_ID = (SELECT City_ID FROM City WHERE Name = ?)
+                WHERE Name = ?
+                """;
 
         int rows = jdbcTemplate.update(
                 updateSql,
@@ -164,9 +164,9 @@ public class TouristRepository {
 
         if (touristAttraction.getTags() != null) {
             String insertTagSql = """
-            INSERT INTO Attraction_tags (Attractions_id, Tags_ID)
-            VALUES (?, (SELECT Tags_ID FROM Tags WHERE Name = ?))
-            """;
+                    INSERT INTO Attraction_tags (Attractions_id, Tags_ID)
+                    VALUES (?, (SELECT Tags_ID FROM Tags WHERE Name = ?))
+                    """;
 
             for (Tags tag : touristAttraction.getTags()) {
                 jdbcTemplate.update(
@@ -180,4 +180,4 @@ public class TouristRepository {
         return findAttractionsByName(touristAttraction.getName());
     }
 
-    }
+}
