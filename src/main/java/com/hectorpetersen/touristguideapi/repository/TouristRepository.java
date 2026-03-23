@@ -137,26 +137,50 @@ public class TouristRepository {
     }
 
     public TouristAttraction updateAttraction(TouristAttraction touristAttraction) {
-        String updateSql = "UPDATE Attractions SET Description = ?, City_ID = (SELECT City_ID FROM City WHERE Name = ?) WHERE Name = ?";
-        int rows = jdbcTemplate.update(updateSql,
+        TouristAttraction existingAttraction = findAttractionsByName(touristAttraction.getName());
+
+        if (existingAttraction == null) {
+            return null;
+        }
+
+        String updateSql = """
+        UPDATE Attractions
+        SET Description = ?, 
+            City_ID = (SELECT City_ID FROM City WHERE Name = ?)
+        WHERE Name = ?
+        """;
+
+        int rows = jdbcTemplate.update(
+                updateSql,
                 touristAttraction.getDescription(),
                 touristAttraction.getCity(),
                 touristAttraction.getName()
         );
-        //hvis ingen rækker bliver opdateret stopper den
+
         if (rows == 0) {
             return null;
         }
 
-        //sletter tags for attraktionen via name
-        jdbcTemplate.update("DELETE FROM Attraction_tags WHERE Attractions_id = ?",touristAttraction.getAttractionId());
-        //nye tags
+        jdbcTemplate.update(
+                "DELETE FROM Attraction_tags WHERE Attractions_id = ?",
+                existingAttraction.getAttractionId()
+        );
+
         if (touristAttraction.getTags() != null) {
-            String insertTagSql = ("INSERT INTO Attraction_tags (Attractions_id, Tags_ID) VALUES ((SELECT Tags_ID FROM Tags WHERE Name = ?");
+            String insertTagSql = """
+            INSERT INTO Attraction_tags (Attractions_id, Tags_ID)
+            VALUES (?, (SELECT Tags_ID FROM Tags WHERE Name = ?))
+            """;
+
             for (Tags tag : touristAttraction.getTags()) {
-                jdbcTemplate.update(insertTagSql,touristAttraction.getAttractionId(), tag.name());
+                jdbcTemplate.update(
+                        insertTagSql,
+                        existingAttraction.getAttractionId(),
+                        tag.name()
+                );
             }
         }
-        return touristAttraction;
+
+        return findAttractionsByName(touristAttraction.getName());
     }
     }
