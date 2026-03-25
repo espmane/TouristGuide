@@ -96,5 +96,13 @@ class TouristRepositoryTest {
 
     @Test
     void updateAttraction() {
+        TouristAttraction attraction = repo.findAttractionsByName("Tivoli");
+        assertThat(attraction).isNotNull();
+        attraction.setName("Mash");
+        repo.updateAttraction(attraction);
+
+        TouristAttraction updated = repo.findAttractionsByName("Mash");
+        assertThat(updated).isNotNull();
+        assertThat(updated.getName()).isEqualTo("Mash");
     }
 }
