@@ -1,5 +1,6 @@
 package com.hectorpetersen.touristguideapi.repository;
 
+import com.hectorpetersen.touristguideapi.exception.AttractionNotFoundException;
 import com.hectorpetersen.touristguideapi.model.Cities;
 import com.hectorpetersen.touristguideapi.model.Tags;
 import com.hectorpetersen.touristguideapi.model.TouristAttraction;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
 @SpringBootTest
@@ -91,7 +93,9 @@ class TouristRepositoryTest {
 
         assertThat(slettet.getName()).isEqualTo("Mash");
 
-        TouristAttraction db = repo.findAttractionsByName("Mash");
+        assertThrows(AttractionNotFoundException.class, () -> {
+            repo.findAttractionsByName("Mash");
+        });
     }
 
     @Test
