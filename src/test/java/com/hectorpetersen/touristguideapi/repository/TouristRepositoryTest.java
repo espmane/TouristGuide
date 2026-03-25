@@ -66,10 +66,32 @@ class TouristRepositoryTest {
 
     @Test
     void createNewAttraction() {
+        TouristAttraction newAttraction = new TouristAttraction("PureGym","fitness","København", List.of(Tags.AKTIVITET));
+
+        TouristAttraction created = repo.createNewAttraction(newAttraction);
+
+        assertThat(created).isNotNull();
+        assertThat(created.getName()).isEqualTo("PureGym");
+        assertThat(created.getDescription()).isEqualTo("fitness");
+        assertThat(created.getCity()).isEqualTo("København");
+        assertThat(created.getTags()).containsExactlyInAnyOrder(Tags.AKTIVITET);
+
+
+        TouristAttraction Db = repo.findAttractionsByName("PureGym");
+        assertThat(Db).isNotNull();
+        assertThat(Db.getName()).isEqualTo("PureGym");
+        assertThat(Db.getDescription()).isEqualTo("fitness");
+        assertThat(Db.getCity()).isEqualTo("København");
     }
 
     @Test
     void deleteAttraction() {
+        String name = "Mash";
+        TouristAttraction slettet = repo.deleteAttraction(name);
+
+        assertThat(slettet.getName()).isEqualTo("Mash");
+
+        TouristAttraction db = repo.findAttractionsByName("Mash");
     }
 
     @Test

@@ -11,8 +11,13 @@ public class Validation {
             throw new IllegalArgumentException("Name can not be empty.");
         }
 
-        if (!name.matches("[a-zA-ZæøåÆØÅ ]+")){
+        name = name.trim();
+
+        if (!name.matches("[a-zA-ZæøåÆØÅ -]+")){
             throw new IllegalArgumentException("Name contains invalid characters");
         }
+//        if (name.matches(".*[1-9].*")){
+//            throw new IllegalArgumentException("Name can not contain numbers!");
+//        }
     }
 }
