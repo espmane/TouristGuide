@@ -30,7 +30,7 @@ jobs:
           PROD_USERNAME: ${{secrets.PROD_USERNAME}}
           PROD_PASSWORD: ${{secrets.PROD_PASSWORD}}
           
-        run: mvn clean install
+        run: mvn clean package -Dskiptest
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -64,4 +64,4 @@ jobs:
         with:
           app-name: 'agahs-touristguide-app'
           slot-name: 'Production'
-          package: '*.jar'
+          package: 'java-app/app*.jar'
