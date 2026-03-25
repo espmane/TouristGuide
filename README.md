@@ -7,5 +7,5 @@ Nedenunder kan i se et skærmbillede af vores Quodana kodeinspektion.
 
 <img width="2982" height="1704" alt="image" src="https://github.com/user-attachments/assets/4da1b63f-777c-467c-be55-9b8e487d1f10" />
 
-
-[Link til Azure deployment]([https://www.agahs-touristguide-app-cjged2f8ecbfb6bg.swedencentral-01.azurewebsites.net/attractions](https://agahs-touristguide-app-cjged2f8ecbfb6bg.swedencentral-01.azurewebsites.net/attractions)).
+Link til azure deployment
+https://www.agahs-touristguide-app-cjged2f8ecbfb6bg.swedencentral-01.azurewebsites.net/attractions](https://agahs-touristguide-app-cjged2f8ecbfb6bg.swedencentral-01.azurewebsites.net/attractions
