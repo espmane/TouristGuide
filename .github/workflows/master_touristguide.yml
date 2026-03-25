@@ -62,6 +62,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'agahs-touristguide-app-cjged2f8ecbfb6bg'
+          app-name: 'agahs-touristguide-app'
           slot-name: 'Production'
           package: 'java-app/*.jar'
